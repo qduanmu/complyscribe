@@ -35,7 +35,7 @@ ssg = {git = "https://github.com/ComplianceasCode/content"}
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-flake8 = "^7.0.0"
+flake8 = "^7.1.2"
 black = "^24.3.0"
 mypy = "^1.11.0"
 isort = "^5.13.2"

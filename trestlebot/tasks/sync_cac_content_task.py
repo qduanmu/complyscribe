@@ -367,7 +367,7 @@ class SyncCacContentTask(TaskBase):
             )
             if unselected_rules_or_vars:
                 logger.info(
-                    f"Unselected in {self.cac_profile_id} profile for {self.product}:"
+                    f"Unselected rules or vars in {self.cac_profile_id} profile for {self.product}:"
                     f"{', '.join(unselected_rules_or_vars)}"
                 )
             only_rules_in_profile = list(

@@ -1,26 +1,25 @@
 # The trestlebot command line sync-oscal-content Tutorial
 
-This tutorial provides how to use `trestlebot sync-oscal-content` sync OSCAL models to [Cac content](https://github.com/ComplianceAsCode/content).
+This tutorial provides how to use `trestlebot sync-oscal-content` sync OSCAL models to [CaC content](https://github.com/ComplianceAsCode/content).
 
-Currently, this command has one sub-commands `cac-control`
+Currently, this command has one sub-command: `cac-control`
 
 ## cac-control
 
-This command is to sync OSCAL component definitions(transformed from cac content using `sync-cac-content component-definition` cmd)
-to Cac content profile file and control files.
+This command is to sync OSCAL Component Definition files to CaC content profile file and control files.
 
 The CLI performs the following sync:
 
-- Sync OSCAL component definition parameters/rules changes to Cac content profile file
-- Sync OSCAL component definition parameters/rules changes to Cac content control file
+- Sync OSCAL component definition parameters/rules changes to CaC content profile file
+- Sync OSCAL component definition parameters/rules changes to CaC content control file
 
 ### 1. Prerequisites
 
 - Initialize the [trestlebot workspace](../tutorials/github.md#3-initialize-trestlebot-workspace).
 
-- Pull the [CacContent repository](https://github.com/ComplianceAsCode/content).
+- Pull the [CaC Content repository](https://github.com/ComplianceAsCode/content).
 
-- Has an OSCAL component definition file(transformed from cac content using `sync-cac-content component-definition` cmd)
+- Has an OSCAL Component Definition file, (transformed from CaC content using `sync-cac-content component-definition` cmd)
 
 ### 2. Run the CLI sync-oscal-content cac-control
 ```shell

@@ -5,7 +5,7 @@
 import logging
 import os.path
 import pathlib
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from ruamel.yaml import YAML
 from ssg.constants import BENCHMARKS
@@ -147,7 +147,7 @@ class SyncOscalCdTask(TaskBase):
 
     def get_all_cac_rule_ids(self) -> List[str]:
         """
-        Get all rule id from cac content repo
+        Get all rules ids from CaC content repo
         """
         r = list()
         for benchmark in BENCHMARKS:
@@ -179,6 +179,23 @@ class SyncOscalCdTask(TaskBase):
             yaml.indent(mapping=4, sequence=4, offset=4)
         yaml.dump(data, file_path)
 
+    def _parse_single_variable(self, variable: str) -> Tuple[List[str], Optional[str]]:
+        """
+        Parse single variable from cac content
+        """
+        v_id, _ = variable.split("=")
+        removed_variable = []
+        update_variable_value = None
+        if v_id in self.parameter_diff_info.parameters_update:
+            # update variable value
+            for v in self.parameter_diff_info.parameters_update[v_id]:
+                update_variable_value = f"{v_id}={v}"
+        elif v_id in self.parameter_diff_info.parameters_remove:
+            # remove variable
+            removed_variable.append(variable)
+
+        return removed_variable, update_variable_value
+
     def _update_control_file_change_in_memory(
         self, cac_control: Dict[str, Any], oscal_control: ImplementedRequirement
     ) -> None:
@@ -192,13 +209,9 @@ class SyncOscalCdTask(TaskBase):
         for rule_index, rule in enumerate(rule_list):
             if "=" in rule:
                 # variable
-                v_id, v_value = rule.split("=")
-                if v_id in self.parameter_diff_info.parameters_update:
-                    # update variable
-                    for v in self.parameter_diff_info.parameters_update[v_id]:
-                        rule_list[rule_index] = f"{v_id}={v}"
-                elif v_id in self.parameter_diff_info.parameters_remove:
-                    removed_variable.append(rule)
+                removed, update_variable = self._parse_single_variable(rule)
+                removed_variable.extend(removed)
+                rule_list[rule_index] = update_variable if update_variable else rule
             else:
                 # rule
                 cac_rule_list.append(rule)
@@ -241,13 +254,9 @@ class SyncOscalCdTask(TaskBase):
                 policy_ids.append(rule.split(":", maxsplit=1)[0])
             elif "=" in rule:
                 # variable
-                v_id, v_value = rule.split("=")
-                if v_id in self.parameter_diff_info.parameters_update:
-                    # update variable
-                    for v in self.parameter_diff_info.parameters_update[v_id]:
-                        selections[rule_index] = f"{v_id}={v}"
-                elif v_id in self.parameter_diff_info.parameters_remove:
-                    removed_variable.append(rule)
+                removed, update_variable = self._parse_single_variable(rule)
+                removed_variable.extend(removed)
+                selections[rule_index] = update_variable if update_variable else rule
             else:
                 # rule
                 if rule not in self.rule_ids_from_oscal:

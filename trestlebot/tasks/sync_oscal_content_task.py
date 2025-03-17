@@ -206,7 +206,7 @@ class SyncOscalCdTask(TaskBase):
         """
         Add comment to control file for missing rule
         """
-        # collect all comment in current control, to avoid add duplicate comment
+        # collect all comments in current control, to avoid adding a duplicate comment
         exist_comments = get_comments_from_yaml_data(cac_control)
 
         rule_list = cac_control["rules"]
@@ -217,7 +217,7 @@ class SyncOscalCdTask(TaskBase):
                 f"rule {missing_rule} not exists in cac content repo: {self.cac_content_root}"
                 f" when trying to add to control: {cac_control['id']}"
             )
-            comment = f"TODO need to implement rule {missing_rule}"
+            comment = f"TODO: Need to implement rule {missing_rule}"
             # check if missing rule comment already exists
             if [True for c in exist_comments if comment in c]:
                 continue

@@ -93,7 +93,7 @@ def test_sync_oscal_cd_to_cac_control(
             # get comment, check if missing rule comment exists
             exist_comments = get_comments_from_yaml_data(control)
             assert len(exist_comments) == 1
-            comment = "TODO need to implement rule not_exist_rule_id"
+            comment = "TODO: Need to implement rule not_exist_rule_id"
             assert len([True for c in exist_comments if comment in c]) == 1
             rules = control.get("rules", [])
             assert "file_groupownership_sshd_private_key" not in rules

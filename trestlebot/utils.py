@@ -24,7 +24,7 @@ def populate_if_dict_field_not_exist(
 def get_comments_from_yaml_data(yaml_data: Any) -> List[str]:
     """
     Get all comments from yaml_data, yaml_data must be read
-     using ruamel.yaml library
+    using ruamel.yaml library
     """
     comments: List[str] = []
     if not yaml_data.ca.items:

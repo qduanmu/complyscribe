@@ -193,15 +193,18 @@ class SyncCacContentTask(TaskBase):
         for selected in selections:
             if ":" in selected:
                 parts = selected.split(":")
-                if len(parts) == 3:
-                    policy_id, level = parts[0], parts[2]
-                else:
-                    policy_id, level = parts[0], "all"
+                policy_id = parts[0]
                 policy = policies.get(policy_id)
                 if policy is not None:
-                    self.controls.extend(
-                        controls_manager.get_all_controls_of_level(policy_id, level)
-                    )
+                    if len(parts) == 3:
+                        levels = [parts[2]]
+                    else:
+                        levels = [level.id for level in policy.levels]
+
+                    for level in levels:
+                        self.controls.extend(
+                            controls_manager.get_all_controls_of_level(policy_id, level)
+                        )
 
     @staticmethod
     def _build_sections_dict(

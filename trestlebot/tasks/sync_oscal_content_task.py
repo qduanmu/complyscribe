@@ -168,6 +168,7 @@ class SyncOscalCdTask(TaskBase):
         Read data from yaml file while preserving the order of dictionaries
         """
         yaml = YAML()
+        yaml.preserve_quotes = True
         return yaml.load(file_path)
 
     @staticmethod

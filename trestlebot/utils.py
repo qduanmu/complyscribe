@@ -2,21 +2,22 @@
 # Copyright (c) 2024 Red Hat, Inc.
 
 """Common utility functions."""
-from typing import Any, Dict, List
+from typing import Any, List
 
-from ruamel.yaml import CommentToken
+from ruamel.yaml import CommentedMap, CommentToken
 
 
 def populate_if_dict_field_not_exist(
-    data: Dict[str, Any], field_name: str, default_value: Any
+    data: CommentedMap, field_name: str, default_value: Any
 ) -> Any:
     """
-    Set field with default value if a dict field does not exist,
+    Set field with default value if a CommentedMap field does not exist,
     if filed exists, this is a no-op
     return field value
     """
     if data.get(field_name) is None:
-        data[field_name] = default_value
+        # insert new filed to -2 position, avoid extra newline
+        data.insert(len(data) - 1, field_name, default_value)
 
     return data[field_name]
 

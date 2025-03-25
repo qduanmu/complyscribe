@@ -8,7 +8,7 @@ import pathlib
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 from ruamel.yaml import YAML
-from ruamel.yaml.comments import CommentedOrderedMap
+from ruamel.yaml.comments import CommentedMap, CommentedOrderedMap
 from ssg.constants import BENCHMARKS
 from ssg.profiles import ProfileSelections, get_profiles_from_products
 from ssg.rules import find_rule_dirs, get_rule_dir_id
@@ -172,16 +172,12 @@ class SyncOscalCdTask(TaskBase):
         return yaml.load(file_path)
 
     @staticmethod
-    def write_ordered_data_to_yaml(
-        file_path: pathlib.Path, data: Any, is_profile: bool = False
-    ) -> None:
+    def write_ordered_data_to_yaml(file_path: pathlib.Path, data: Any) -> None:
         """
         Serializes a Python object into a YAML stream, preserving the order of dictionaries.
         """
         yaml = YAML()
-        # profile indent
-        if is_profile:
-            yaml.indent(mapping=4, sequence=4, offset=4)
+        yaml.indent(mapping=4, sequence=6, offset=4)
         yaml.dump(data, file_path)
 
     def _parse_single_variable(self, variable: str) -> Tuple[List[str], Optional[str]]:
@@ -232,7 +228,7 @@ class SyncOscalCdTask(TaskBase):
                 cac_control.yaml_set_comment_before_after_key("rules", before=comment)
 
     def _update_control_file_change_in_memory(
-        self, cac_control: Dict[str, Any], oscal_control: ImplementedRequirement
+        self, cac_control: CommentedMap, oscal_control: ImplementedRequirement
     ) -> None:
         """
         In memory update cac control file changes
@@ -276,7 +272,7 @@ class SyncOscalCdTask(TaskBase):
         self._update_missing_rule_in_memory(cac_control, missing_rules)
 
     def _update_profile_change_in_memory(
-        self, profile_data: Dict[str, Any], profile_id: str
+        self, profile_data: CommentedMap, profile_id: str
     ) -> List[str]:
         """
         In memory update cac profile changes
@@ -317,7 +313,7 @@ class SyncOscalCdTask(TaskBase):
 
         return policy_ids
 
-    def _handle_controls_field(self, controls_data: List[Dict[str, Any]]) -> None:
+    def _handle_controls_field(self, controls_data: List[CommentedMap]) -> None:
         """
         Handle control file's controls field update
         """
@@ -365,7 +361,7 @@ class SyncOscalCdTask(TaskBase):
         policy_ids = self._update_profile_change_in_memory(profile_data, profile_id)
 
         # save profile change
-        self.write_ordered_data_to_yaml(profile_path, profile_data, is_profile=True)
+        self.write_ordered_data_to_yaml(profile_path, profile_data)
 
         # sync control file
         for policy_id in policy_ids:

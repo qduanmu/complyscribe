@@ -42,6 +42,7 @@ Below is a table of the available commands and their current availability as a G
 | `create ssp`                            |                              |
 | `sync-cac-content component-definition` |                              |
 | `sync-cac-content profile`              |                              |
+| `sync-cac-content catalog`              |                              |
 | `sync-oscal-content cac-control`        |                              |
 
 For detailed documentation on how to use each action, see the README.md in each folder under [actions](./actions/).

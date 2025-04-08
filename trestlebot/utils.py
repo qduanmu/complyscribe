@@ -2,10 +2,13 @@
 # Copyright (c) 2024 Red Hat, Inc.
 
 """Common utility functions."""
+import os
 import pathlib
 from typing import Any, List
 
 from ruamel.yaml import YAML, CommentedMap, CommentToken
+from ssg.controls import ControlsManager
+from ssg.products import load_product_yaml, product_yaml_path
 
 
 def populate_if_dict_field_not_exist(
@@ -63,3 +66,15 @@ def write_cac_yaml_ordered(file_path: pathlib.Path, data: Any) -> None:
     yaml = YAML()
     yaml.indent(mapping=4, sequence=6, offset=4)
     yaml.dump(data, file_path)
+
+
+def load_controls_manager(cac_content_root: str, product: str) -> ControlsManager:
+    """
+    Loads and initializes a ControlsManager instance.
+    """
+    product_yml_path = product_yaml_path(cac_content_root, product)
+    product_yaml = load_product_yaml(product_yml_path)
+    controls_dir = os.path.join(cac_content_root, "controls")
+    control_mgr = ControlsManager(controls_dir, product_yaml)
+    control_mgr.load()
+    return control_mgr

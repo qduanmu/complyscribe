@@ -12,8 +12,9 @@ from ruamel.yaml import YAML
 
 from tests.testutils import TEST_DATA_DIR, setup_for_cac_content_dir, setup_for_compdef
 from trestlebot.cli.commands.sync_oscal_content import (
-    sync_oscal_cd_to_cac_control_files_cmd,
+    sync_oscal_cd_to_cac_content_cmd,
     sync_oscal_content_cmd,
+    sync_oscal_profile_to_cac_content_cmd,
 )
 from trestlebot.const import INVALID_ARGS_EXIT_CODE, SUCCESS_EXIT_CODE
 from trestlebot.utils import get_comments_from_yaml_data
@@ -37,7 +38,7 @@ def test_invalid_sync_oscal_cmd() -> None:
 def test_sync_oscal_cd_to_cac_control(
     tmp_repo: Tuple[str, Repo], tmp_init_dir: str
 ) -> None:
-    """Tests sync OSCAL component definition to cac control file."""
+    """Tests sync OSCAL component definition information to cac content."""
     repo_dir, _ = tmp_repo
     trestle_repo_path = pathlib.Path(repo_dir)
     setup_for_compdef(trestle_repo_path, test_product, test_product)
@@ -46,7 +47,7 @@ def test_sync_oscal_cd_to_cac_control(
 
     runner = CliRunner()
     result = runner.invoke(
-        sync_oscal_cd_to_cac_control_files_cmd,
+        sync_oscal_cd_to_cac_content_cmd,
         [
             "--product",
             test_product,
@@ -123,3 +124,31 @@ def test_sync_oscal_cd_to_cac_control(
     options = var_file_data["options"]
     assert "not-exist-option" in options
     assert options["not-exist-option"] == "not-exist-option"
+
+
+def test_invalid_sync_oscal_profile_cmd(tmp_repo: Tuple[str, Repo]) -> None:
+    """Tests sync OSCAL profile information to cac content."""
+    repo_dir, _ = tmp_repo
+    trestle_repo_path = pathlib.Path(repo_dir)
+
+    runner = CliRunner()
+    result = runner.invoke(
+        sync_oscal_profile_to_cac_content_cmd,
+        [
+            "--cac-policy-id",
+            "replace_me",
+            "--cac-content-root",
+            test_content_dir,
+            "--repo-path",
+            str(trestle_repo_path.resolve()),
+            "--committer-email",
+            "test@email.com",
+            "--committer-name",
+            "test name",
+            "--branch",
+            "test",
+            "--dry-run",
+        ],
+    )
+
+    assert result.exit_code == SUCCESS_EXIT_CODE, result.output

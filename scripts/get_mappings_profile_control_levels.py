@@ -2,7 +2,7 @@
 # Copyright (c) 2025 Red Hat, Inc.
 import os
 import sys
-from pickle import DICT
+from typing import Dict
 from ssg.profiles import _load_yaml_profile_file, get_profiles_from_products
 
 from trestlebot.utils import load_controls_manager
@@ -36,7 +36,7 @@ Output Format:
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 
-def get_controls(cac_profile, cac_content_root, product) -> DICT:
+def get_controls(cac_profile, cac_content_root, product) -> Dict:
     """Get the policy and levels"""
     controls_manager = load_controls_manager(cac_content_root, product)
     policies = controls_manager.policies

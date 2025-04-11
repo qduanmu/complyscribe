@@ -10,8 +10,7 @@ import re
 from typing import Dict, List, Optional, Pattern
 
 # from ssg.products import get_all
-from ssg.controls import Control, ControlsManager, Status
-from ssg.products import load_product_yaml, product_yaml_path
+from ssg.controls import Control, Status
 from ssg.profiles import _load_yaml_profile_file, get_profiles_from_products
 from trestle.common.common_types import TypeWithProps
 from trestle.common.const import (
@@ -46,6 +45,7 @@ from trestlebot.transformers.cac_transformer import (
     get_component_info,
     get_validation_component_mapping,
 )
+from trestlebot.utils import load_controls_manager
 
 
 logger = logging.getLogger(__name__)
@@ -173,20 +173,9 @@ class SyncCacContentTask(TaskBase):
         else:
             self.profile_path = self.profile_href
 
-    def _load_controls_manager(self) -> ControlsManager:
-        """
-        Loads and initializes a ControlsManager instance.
-        """
-        product_yml_path = product_yaml_path(self.cac_content_root, self.product)
-        product_yaml = load_product_yaml(product_yml_path)
-        controls_dir = os.path.join(self.cac_content_root, "controls")
-        control_mgr = ControlsManager(controls_dir, product_yaml)
-        control_mgr.load()
-        return control_mgr
-
     def _get_controls(self) -> None:
         """Collect controls selected by profile."""
-        controls_manager = self._load_controls_manager()
+        controls_manager = load_controls_manager(self.cac_content_root, self.product)
         policies = controls_manager.policies
         profile_yaml = _load_yaml_profile_file(self.cac_profile)
         selections = profile_yaml.get("selections", [])

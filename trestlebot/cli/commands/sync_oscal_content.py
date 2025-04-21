@@ -11,8 +11,8 @@ import click
 from trestlebot.cli.options.common import common_options, git_options, handle_exceptions
 from trestlebot.cli.utils import run_bot
 from trestlebot.tasks.base_task import TaskBase
-from trestlebot.tasks.sync_osacl_content_profile_task import SyncOscalProfileTask
 from trestlebot.tasks.sync_oscal_content_cd_task import SyncOscalCdTask
+from trestlebot.tasks.sync_oscal_content_profile_task import SyncOscalProfileTask
 
 
 logger = logging.getLogger(__name__)

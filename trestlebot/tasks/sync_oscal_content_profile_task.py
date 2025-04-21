@@ -103,6 +103,10 @@ class SyncOscalProfileTask(TaskBase):
     def get_level_with_ancestors(
         self, control_mgr: ControlsManager
     ) -> Dict[str, List[str]]:
+        """
+        Get CaC control file level with ancestors.
+        Ancestors list is ordered by level rank, desc
+        """
         p: Policy = control_mgr._get_policy(self.cac_policy_id)
         level_with_ancestors = {}
         for level in p.levels:
@@ -154,7 +158,7 @@ class SyncOscalProfileTask(TaskBase):
                 continue
             # deal with level with inherits_from
             i = highest_level_chain.index(level)
-            if highest_level_chain[i - 1] not in cac_control_levels:
+            if i - 1 >= 0 and highest_level_chain[i - 1] not in cac_control_levels:
                 cac_control_levels.append(highest_level_chain[i - 1])
 
     def execute(self) -> int:

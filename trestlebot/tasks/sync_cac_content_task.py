@@ -392,7 +392,7 @@ class SyncCacContentTask(TaskBase):
         self._add_set_parameters(ci)
 
         # Add framework prop for complytime consumption. This should be the
-        # orginating CaC profile name.
+        # originating CaC profile name.
         ci.props = as_list(ci.props)
         frameworkProp = generate_sample_model(Property)
         frameworkProp.name = const.FRAMEWORK_SHORT_NAME
@@ -492,7 +492,8 @@ class SyncCacContentTask(TaskBase):
         repo_path = pathlib.Path(self.working_dir)
         cd_json: pathlib.Path = ModelUtils.get_model_path_for_name_and_class(
             repo_path,
-            self.product,
+            # TODO: this updated the structure
+            f"{self.product}/{self.oscal_profile}",
             ComponentDefinition,
             FileContentType.JSON,
         )

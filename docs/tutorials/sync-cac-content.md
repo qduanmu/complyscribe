@@ -5,11 +5,11 @@ This command has two sub-commands `component-definition` and `profile`
 
 ## component-definition
 
-This command is to create OSCAL component definitions by transforming Cac content control files.
+This command is to create OSCAL component definitions by transforming CaC content control files.
 
 The CLI performs the following transformations:
 
-- Populate CaC product information to Oscal component title and description
+- Populate CaC product information to OSCAL component title and description
 - Ensure OSCAL component control mappings are populated with rule and rule parameter data from CaC control files
 - Create a validation component from SSG rules to check mappings
 - Ensure OSCAL Component Definition implemented requirements are populated from control notes in the control file
@@ -37,10 +37,10 @@ poetry run trestlebot sync-cac-content component-definition \
 ```
 
 For more details about these options and additional flags, you can use the --help flag:
-`poetry run trestlebot sync-cac-content component-definition --help'
+`poetry run trestlebot sync-cac-content component-definition --help`
 This will display a full list of available options and their descriptions.
 
-After run the CLI with the right options, you would successfully generate an OSCAL component definition under $trestlebot_workplace_directory/component-definitions/$product_name.
+After running the CLI with the right options, you would successfully generate an OSCAL component definition under $trestlebot_workplace_directory/component-definitions/$product_name/$OSCAL-profile-name.
 
 ## profile
 
@@ -67,7 +67,7 @@ poetry run trestlebot sync-cac-content profile \
 ```
 
 For more details about these options and additional flags, you can use the --help flag:
-`poetry run trestlebot sync-cac-content profile --help'
+`poetry run trestlebot sync-cac-content profile --help`
 This will display a full list of available options and their descriptions.
 
-After run the CLI with the right options, you would successfully generate an OSCAL profile under $trestlebot_workplace_directory/profiles.
+After running the CLI with the right options, you would successfully generate an OSCAL profile under $trestlebot_workplace_directory/profiles.

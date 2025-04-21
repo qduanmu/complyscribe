@@ -46,7 +46,7 @@ def test_sync_cac_profile_task(tmp_trestle_dir: str) -> None:
 
     import_path = f"trestle://{cat_path}"
 
-    low_title = f"{test_policy}-low"
+    low_title = f"{test_product}-{test_policy}-low"
     low, _ = ModelUtils.load_model_for_class(
         trestle_root, low_title, prof.Profile, FileContentType.JSON
     )
@@ -57,7 +57,7 @@ def test_sync_cac_profile_task(tmp_trestle_dir: str) -> None:
     assert low.imports[0].include_controls is not None
     assert len(low.imports[0].include_controls[0].with_ids) == 2
 
-    medium_title = f"{test_policy}-medium"
+    medium_title = f"{test_product}-{test_policy}-medium"
     medium, _ = ModelUtils.load_model_for_class(
         trestle_root, medium_title, prof.Profile, FileContentType.JSON
     )
@@ -67,7 +67,7 @@ def test_sync_cac_profile_task(tmp_trestle_dir: str) -> None:
     assert medium.imports[0].href == import_path
     assert len(medium.imports[0].include_controls[0].with_ids) == 3
 
-    high_title = f"{test_policy}-high"
+    high_title = f"{test_product}-{test_policy}-high"
     high, _ = ModelUtils.load_model_for_class(
         trestle_root, high_title, prof.Profile, FileContentType.JSON
     )

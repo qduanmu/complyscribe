@@ -1,17 +1,16 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright (c) 2024 Red Hat, Inc.
 import logging
-import os
 import pathlib
 from typing import List, Set
 
-from ssg.controls import Control, ControlsManager, Policy  # type: ignore
-from ssg.products import load_product_yaml, product_yaml_path
+from ssg.controls import Control, Policy  # type: ignore
 from trestle.common.load_validate import load_validate_model_path
 
 from trestlebot import const
 from trestlebot.tasks.authored.profile import AuthoredProfile, CatalogControlResolver
 from trestlebot.tasks.base_task import TaskBase, TaskException
+from trestlebot.utils import load_controls_manager
 
 
 logger = logging.getLogger(__name__)
@@ -68,13 +67,7 @@ class SyncCacContentProfileTask(TaskBase):
             filter_by_level: List[str]: User indicated baseline level that will be used to
             filter control files.
         """
-
-        product_yml_path = product_yaml_path(self.cac_content_root, self.product)
-        product_data = load_product_yaml(product_yml_path)
-        control_manager = ControlsManager(
-            os.path.join(self.cac_content_root, "controls"), product_data
-        )
-        control_manager.load()
+        control_manager = load_controls_manager(self.cac_content_root, self.product)
 
         # accessing control file within content/controls
         # ControlsManager() object can access methods for handling controls.
@@ -120,7 +113,7 @@ class SyncCacContentProfileTask(TaskBase):
         # Step 1: If filter by level returns eligible controls, create OSCAL profile with suffix
         # change based on level
         # Step 2: Fill in with control id, loading from eligible controls and all controls
-        name_update = f"{self.policy_id}-{level}"
+        name_update = f"{self.product}-{self.policy_id}-{level}"
         # If the import_path is not valid then create new default
         # (based on tasks/authored/profile.py)
         # Otherwise the existing copy is held as a deep copy and will be accessible

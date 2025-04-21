@@ -44,7 +44,7 @@ class SyncOscalProfileTask(TaskBase):
         self.level_with_ancestors: Dict[str, List[str]] = dict()
 
     def get_oscal_profiles(
-        self, policy_id: str, trestle_root: pathlib.Path
+        self, trestle_root: pathlib.Path
     ) -> List[Tuple[Profile, pathlib.Path]]:
         """
         Get OSCAL profiles information according to policy id.
@@ -52,7 +52,7 @@ class SyncOscalProfileTask(TaskBase):
         res = []
         dir_name = ModelUtils.model_type_to_model_dir(MODEL_TYPE_PROFILE)
         for d in pathlib.Path(trestle_root.joinpath(dir_name)).iterdir():
-            if policy_id in d.name:
+            if f"{self.product}-{self.cac_policy_id}" in d.name:
                 res.append(
                     ModelUtils.load_model_for_type(
                         trestle_root, MODEL_TYPE_PROFILE, d.name
@@ -179,9 +179,7 @@ class SyncOscalProfileTask(TaskBase):
         logger.info(f"level with ancestors: {self.level_with_ancestors}")
 
         # get all oscal profiles according to policy-id
-        profiles = self.get_oscal_profiles(
-            self.cac_policy_id, pathlib.Path(self.working_dir)
-        )
+        profiles = self.get_oscal_profiles(pathlib.Path(self.working_dir))
         # load all controls
         self.load_all_controls(profiles)
         # get cac_control_id to oscal_control_id map

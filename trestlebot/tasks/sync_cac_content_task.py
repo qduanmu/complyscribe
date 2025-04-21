@@ -492,7 +492,7 @@ class SyncCacContentTask(TaskBase):
         repo_path = pathlib.Path(self.working_dir)
         cd_json: pathlib.Path = ModelUtils.get_model_path_for_name_and_class(
             repo_path,
-            # TODO: this updated the structure
+            # Updating the path reference for transformed component-definitions
             f"{self.product}/{self.oscal_profile}",
             ComponentDefinition,
             FileContentType.JSON,

@@ -81,7 +81,9 @@ def test_full_sync(tmp_repo: Tuple[str, Repo], complytime_home: pathlib.Path) ->
     test_product = "rhel8"
     test_cac_profile = test_content_dir / "products/rhel8/profiles/example.profile"
     test_prof = "simplified_nist_profile"
-    test_comp_path = f"component-definitions/{test_product}/component-definition.json"
+    test_comp_path = (
+        f"component-definitions/{test_product}/{test_prof}/component-definition.json"
+    )
     test_cat = "simplified_nist_catalog"
     assert isinstance(sync_content_to_component_definition_cmd, BaseCommand)
     setup_for_catalog(repo_path, test_cat, "catalog")
@@ -210,7 +212,9 @@ def test_compdef_type_software_sync(
     test_product = "rhel8"
     test_cac_profile = test_content_dir / "products/rhel8/profiles/example.profile"
     test_prof = "simplified_nist_profile"
-    test_comp_path = f"component-definitions/{test_product}/component-definition.json"
+    test_comp_path = (
+        f"component-definitions/{test_product}/{test_prof}/component-definition.json"
+    )
     test_cat = "simplified_nist_catalog"
     assert isinstance(sync_content_to_component_definition_cmd, BaseCommand)
     setup_for_catalog(repo_path, test_cat, "catalog")
@@ -343,7 +347,9 @@ def test_compdef_type_validation_sync(
     test_product = "rhel8"
     test_cac_profile = test_content_dir / "products/rhel8/profiles/example.profile"
     test_prof = "simplified_nist_profile"
-    test_comp_path = f"component-definitions/{test_product}/component-definition.json"
+    test_comp_path = (
+        f"component-definitions/{test_product}/{test_prof}/component-definition.json"
+    )
     test_cat = "simplified_nist_catalog"
     assert isinstance(sync_content_to_component_definition_cmd, BaseCommand)
     setup_for_catalog(repo_path, test_cat, "catalog")

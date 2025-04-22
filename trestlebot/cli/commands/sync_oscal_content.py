@@ -61,6 +61,9 @@ def sync_oscal_cd_to_cac_content_cmd(
         cac_content_root=cac_content_root, working_dir=working_dir, product=product
     )
     pre_tasks.append(sync_cac_content_task)
+    # change working_dir to CaC content repo, since this task changing
+    # CaC content
+    kwargs["repo_path"] = str(cac_content_root.resolve())
     result = run_bot(pre_tasks, kwargs)
     logger.debug(f"Trestlebot results: {result}")
 
@@ -109,5 +112,8 @@ def sync_oscal_profile_to_cac_content_cmd(
         product=product,
     )
     pre_tasks.append(sync_cac_content_task)
+    # change working_dir to CaC content repo, since this task changing
+    # CaC content
+    kwargs["repo_path"] = str(cac_content_root.resolve())
     result = run_bot(pre_tasks, kwargs)
     logger.debug(f"Trestlebot results: {result}")

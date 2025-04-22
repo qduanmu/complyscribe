@@ -238,7 +238,7 @@ def setup_for_compdef(
 
 def setup_for_cac_content_dir(tmp_dir: str, cac_content_src_dir: pathlib.Path) -> None:
     """
-    Setup cac content dir for testing
+    Set up tmp CaC content dir for tests changing it content
     """
     shutil.copytree(cac_content_src_dir, tmp_dir, dirs_exist_ok=True)
 
@@ -257,6 +257,11 @@ def setup_for_cac_content_dir(tmp_dir: str, cac_content_src_dir: pathlib.Path) -
             rules.append("var_system_crypto_policy=fips")
 
     yaml.dump(data, abcd_levels_control_file_path)
+
+    # setup as git repo for test
+    repo: Repo = repo_setup(pathlib.Path(tmp_dir))
+    remote_url = "http://localhost:8080/test.git"
+    repo.create_remote("origin", url=remote_url)
 
 
 def setup_rules_view(

@@ -97,7 +97,7 @@ def load_from_json(
     file_prefix: str,
     model_name: str,
     model_type: OscalBaseModel,
-) -> None:
+) -> pathlib.Path:
     """Load model from JSON test dir."""
     src_path = JSON_TEST_DATA_PATH / f"{file_prefix}.json"
     dst_path: pathlib.Path = ModelUtils.get_model_path_for_name_and_class(
@@ -105,6 +105,7 @@ def load_from_json(
     )
     dst_path.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src_path, dst_path)
+    return dst_path
 
 
 def load_from_yaml(
@@ -161,7 +162,7 @@ def setup_for_profile(
     tmp_trestle_dir: pathlib.Path, prof_name: str, output_name: str
 ) -> argparse.Namespace:
     """Setup trestle temp directory for profile testing."""
-    load_from_json(tmp_trestle_dir, prof_name, prof_name, prof.Profile)  # type: ignore
+    profile_path = load_from_json(tmp_trestle_dir, prof_name, prof_name, prof.Profile)  # type: ignore
 
     load_from_json(
         tmp_trestle_dir,
@@ -181,6 +182,7 @@ def setup_for_profile(
         sections=None,
         required_sections=None,
         allowed_sections=None,
+        profile_path=profile_path.resolve(),
     )
 
     return args
@@ -236,7 +238,7 @@ def setup_for_compdef(
 
 def setup_for_cac_content_dir(tmp_dir: str, cac_content_src_dir: pathlib.Path) -> None:
     """
-    Setup cac content dir for testing
+    Set up tmp CaC content dir for tests changing it content
     """
     shutil.copytree(cac_content_src_dir, tmp_dir, dirs_exist_ok=True)
 
@@ -255,6 +257,11 @@ def setup_for_cac_content_dir(tmp_dir: str, cac_content_src_dir: pathlib.Path) -
             rules.append("var_system_crypto_policy=fips")
 
     yaml.dump(data, abcd_levels_control_file_path)
+
+    # setup as git repo for test
+    repo: Repo = repo_setup(pathlib.Path(tmp_dir))
+    remote_url = "http://localhost:8080/test.git"
+    repo.create_remote("origin", url=remote_url)
 
 
 def setup_rules_view(

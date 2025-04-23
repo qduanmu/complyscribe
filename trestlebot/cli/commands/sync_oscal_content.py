@@ -11,8 +11,8 @@ import click
 from trestlebot.cli.options.common import common_options, git_options, handle_exceptions
 from trestlebot.cli.utils import run_bot
 from trestlebot.tasks.base_task import TaskBase
-from trestlebot.tasks.sync_osacl_content_profile_task import SyncOscalProfileTask
 from trestlebot.tasks.sync_oscal_content_cd_task import SyncOscalCdTask
+from trestlebot.tasks.sync_oscal_content_profile_task import SyncOscalProfileTask
 
 
 logger = logging.getLogger(__name__)
@@ -61,6 +61,9 @@ def sync_oscal_cd_to_cac_content_cmd(
         cac_content_root=cac_content_root, working_dir=working_dir, product=product
     )
     pre_tasks.append(sync_cac_content_task)
+    # change working_dir to CaC content repo, since this task changing
+    # CaC content
+    kwargs["repo_path"] = str(cac_content_root.resolve())
     result = run_bot(pre_tasks, kwargs)
     logger.debug(f"Trestlebot results: {result}")
 
@@ -86,10 +89,17 @@ def sync_oscal_cd_to_cac_content_cmd(
     required=True,
     help="Policy id for source control file.",
 )
+@click.option(
+    "--product",
+    type=str,
+    required=True,
+    help="Product name for sync OSCAL Profile.",
+)
 def sync_oscal_profile_to_cac_content_cmd(
     ctx: click.Context,
     cac_content_root: pathlib.Path,
     cac_policy_id: str,
+    product: str,
     **kwargs: Any,
 ) -> None:
     """Sync OSCAL profile to cac control file"""
@@ -99,7 +109,11 @@ def sync_oscal_profile_to_cac_content_cmd(
         cac_content_root=cac_content_root,
         working_dir=working_dir,
         cac_policy_id=cac_policy_id,
+        product=product,
     )
     pre_tasks.append(sync_cac_content_task)
+    # change working_dir to CaC content repo, since this task changing
+    # CaC content
+    kwargs["repo_path"] = str(cac_content_root.resolve())
     result = run_bot(pre_tasks, kwargs)
     logger.debug(f"Trestlebot results: {result}")

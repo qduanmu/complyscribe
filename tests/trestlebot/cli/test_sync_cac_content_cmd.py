@@ -29,7 +29,10 @@ test_content_dir = TEST_DATA_DIR / "content_dir"
 test_cac_profile = "example"
 test_prof = "simplified_nist_profile"
 test_cat = "simplified_nist_catalog"
-test_comp_path = f"component-definitions/{test_product}/component-definition.json"
+# Updating the unit tests for checking location
+test_comp_path = (
+    f"component-definitions/{test_product}/{test_prof}/component-definition.json"
+)
 test_policy_id = "1234-levels"
 test_level = "low"
 tester_prof_path = f"profiles/{test_product}-{test_policy_id}-{test_level}/profile.json"

@@ -30,6 +30,7 @@ test_product = "rhel8"
 # Note: data in test_content_dir is copied from content repo, PR:
 # https://github.com/ComplianceAsCode/content/pull/12819
 test_content_dir = TEST_DATA_DIR / "content_dir"
+test_policy_id = "abcd-levels"
 
 
 def test_invalid_sync_oscal_cmd() -> None:
@@ -141,9 +142,9 @@ def test_sync_oscal_profile_levels_low_to_high(
     """
     repo_dir, _ = tmp_repo
     trestle_repo_path = pathlib.Path(repo_dir)
-    setup_for_profile(trestle_repo_path, "abcd-levels-low", "profile")
-    setup_for_profile(trestle_repo_path, "abcd-levels-medium", "profile")
-    setup_for_profile(trestle_repo_path, "abcd-levels-high", "profile")
+    setup_for_profile(trestle_repo_path, "rhel8-abcd-levels-low", "profile")
+    setup_for_profile(trestle_repo_path, "rhel8-abcd-levels-medium", "profile")
+    setup_for_profile(trestle_repo_path, "rhel8-abcd-levels-high", "profile")
 
     tmp_content_dir = tmp_init_dir
     setup_for_cac_content_dir(tmp_content_dir, test_content_dir)
@@ -153,9 +154,9 @@ def test_sync_oscal_profile_levels_low_to_high(
         sync_oscal_profile_to_cac_content_cmd,
         [
             "--cac-policy-id",
-            "abcd-levels",
+            test_policy_id,
             "--product",
-            "rhel8",
+            test_product,
             "--cac-content-root",
             tmp_content_dir,
             "--repo-path",
@@ -197,7 +198,7 @@ def test_sync_oscal_profile_levels_high_to_low(
     repo_dir, _ = tmp_repo
     trestle_repo_path = pathlib.Path(repo_dir)
 
-    args = setup_for_profile(trestle_repo_path, "abcd-levels-low", "profile")
+    args = setup_for_profile(trestle_repo_path, "rhel8-abcd-levels-low", "profile")
     # change low level profile for test
     with open(args.profile_path) as f:
         profile_data = json.load(f)
@@ -208,7 +209,7 @@ def test_sync_oscal_profile_levels_high_to_low(
         ]
         json.dump(profile_data, f, indent=2)
 
-    args = setup_for_profile(trestle_repo_path, "abcd-levels-medium", "profile")
+    args = setup_for_profile(trestle_repo_path, "rhel8-abcd-levels-medium", "profile")
     # change medium level profile for test
     with open(args.profile_path) as f:
         profile_data = json.load(f)
@@ -219,7 +220,7 @@ def test_sync_oscal_profile_levels_high_to_low(
             "ac-2",
         ]
         json.dump(profile_data, f, indent=2)
-    setup_for_profile(trestle_repo_path, "abcd-levels-high", "profile")
+    setup_for_profile(trestle_repo_path, "rhel8-abcd-levels-high", "profile")
 
     tmp_content_dir = tmp_init_dir
     setup_for_cac_content_dir(tmp_content_dir, test_content_dir)
@@ -241,9 +242,9 @@ def test_sync_oscal_profile_levels_high_to_low(
         sync_oscal_profile_to_cac_content_cmd,
         [
             "--cac-policy-id",
-            "abcd-levels",
+            test_policy_id,
             "--product",
-            "rhel8",
+            test_product,
             "--cac-content-root",
             tmp_content_dir,
             "--repo-path",

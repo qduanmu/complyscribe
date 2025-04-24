@@ -32,7 +32,7 @@ test_cat = "simplified_nist_catalog"
 test_comp_path = f"component-definitions/{test_product}/component-definition.json"
 test_policy_id = "1234-levels"
 test_level = "low"
-tester_prof_path = f"profiles/{test_policy_id}-{test_level}/profiles.json"
+tester_prof_path = f"profiles/{test_product}-{test_policy_id}-{test_level}/profile.json"
 
 
 def test_invalid_sync_cac_cmd() -> None:
@@ -473,7 +473,6 @@ def test_created_oscal_profile(tmp_repo: Tuple[str, Repo]) -> None:
     repo_path = pathlib.Path(repo_dir)
 
     setup_for_catalog(repo_path, test_cat, "catalog")
-    test_prof_path = f"profiles/{test_policy_id}-{test_level}/profile.json"
 
     runner = CliRunner()
     result = runner.invoke(
@@ -502,9 +501,9 @@ def test_created_oscal_profile(tmp_repo: Tuple[str, Repo]) -> None:
     )
     # Checking if CLI input created an OSCAL Profile
     # Asserting profile exists within the correct test profile path
-    # Profile should populate in profiles/{cac-policy-id}-{filter-by-level}/profile.json
+    # Profile should populate in profiles/{product}-{cac-policy-id}-{filter-by-level}/profile.json
     assert result.exit_code == 0
-    profile = repo_path.joinpath(test_prof_path)
+    profile = repo_path.joinpath(tester_prof_path)
     assert profile.exists()
 
 

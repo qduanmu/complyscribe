@@ -467,6 +467,9 @@ class SyncCacContentTask(TaskBase):
             ModelUtils.update_last_modified(compdef)
             compdef.oscal_write(cd_json)
             logger.info(f"Component definition: {cd_json} is updated")
+            logger.debug(
+                f"Component definition: {cd_json} was updated for {self.product}."
+            )
         else:
             logger.info(f"No update in component definition: {cd_json}")
 
@@ -482,6 +485,7 @@ class SyncCacContentTask(TaskBase):
         cd_dir.mkdir(exist_ok=True, parents=True)
         component_definition.components.append(oscal_component)
         component_definition.oscal_write(cd_json)
+        logger.debug(f"Component definition: {cd_json} was created for {self.product}.")
 
     def _create_or_update_compdef(self) -> None:
         """Create or update component definition for specified CaC profile."""
@@ -500,9 +504,15 @@ class SyncCacContentTask(TaskBase):
         if cd_json.exists():
             logger.info(f"The component definition for {self.product} exists.")
             self._update_compdef(cd_json, oscal_component)
+            logger.debug(
+                f"The component definition for {self.product} was updated at {cd_json}."
+            )
         else:
             logger.info(f"Creating component definition for product {self.product}")
             self._create_compdef(cd_json, oscal_component)
+            logger.debug(
+                f"The component definition for {self.product} was created at {cd_json}."
+            )
 
     def execute(self) -> int:
         """Execute task to create or update product component definition."""

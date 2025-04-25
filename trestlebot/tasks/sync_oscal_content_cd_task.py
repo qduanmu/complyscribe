@@ -157,7 +157,7 @@ class ParameterDiffInfo:
     def __str__(self) -> str:
         return (
             f"Parameters added: {self.parameters_add}, Parameters updated: {self.parameters_update},"
-            f" Parameters remove: {self.parameters_remove}"
+            f" Parameters removed: {self.parameters_remove}"
         )
 
 

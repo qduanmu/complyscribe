@@ -5,15 +5,15 @@ This command has two sub-commands `component-definition` and `profile`
 
 ## component-definition
 
-This command is to create OSCAL component definitions by transforming Cac content control files.
+This command is to create OSCAL Component Definitions by transforming CaC content control files.
 
 The CLI performs the following transformations:
 
-- Populate CaC product information to Oscal component title and description
+- Populate CaC product information to OSCAL component title and description
 - Ensure OSCAL component control mappings are populated with rule and rule parameter data from CaC control files
 - Create a validation component from SSG rules to check mappings
 - Ensure OSCAL Component Definition implemented requirements are populated from control notes in the control file
-- Ensure implementation status of an implemented requirement in OSCAL component definitions are populated with the status from CaC control files
+- Ensure implementation status of an implemented requirement in OSCAL Component Definitions are populated with the status from CaC control files
 
 ### 1. Prerequisites
 
@@ -36,15 +36,15 @@ poetry run trestlebot sync-cac-content component-definition \
   --component-definition-type $type
 ```
 
-For more details about these options and additional flags, you can use the --help flag:
-`poetry run trestlebot sync-cac-content component-definition --help'
+For more details about these options and additional flags, you can use the `--help` flag:
+`poetry run trestlebot sync-cac-content component-definition --help`
 This will display a full list of available options and their descriptions.
 
-After run the CLI with the right options, you would successfully generate an OSCAL component definition under $trestlebot_workplace_directory/component-definitions/$product_name.
+After running the CLI with the right options, you would successfully generate an OSCAL Component Definition under $trestlebot_workplace_directory/component-definitions/$product_name/$OSCAL-profile-name.
 
 ## profile
 
-This command is to generate OSCAL profile according to content policy 
+This command is to generate OSCAL Profile according to content policy 
 
 ### 1. Prerequisites
 
@@ -66,8 +66,8 @@ poetry run trestlebot sync-cac-content profile \
 --branch main
 ```
 
-For more details about these options and additional flags, you can use the --help flag:
-`poetry run trestlebot sync-cac-content profile --help'
+For more details about these options and additional flags, you can use the `--help` flag:
+`poetry run trestlebot sync-cac-content profile --help`
 This will display a full list of available options and their descriptions.
 
-After run the CLI with the right options, you would successfully generate an OSCAL profile under $trestlebot_workplace_directory/profiles.
+After running the CLI with the right options, you would successfully generate an OSCAL Profile under $trestlebot_workplace_directory/profiles.

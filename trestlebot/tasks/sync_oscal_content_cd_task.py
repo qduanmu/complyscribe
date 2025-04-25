@@ -165,12 +165,17 @@ class SyncOscalCdTask(TaskBase):
     """Sync OSCAL component definition to cac content task."""
 
     def __init__(
-        self, cac_content_root: pathlib.Path, working_dir: str, product: str
+        self,
+        cac_content_root: pathlib.Path,
+        working_dir: str,
+        product: str,
+        oscal_profile: str,
     ) -> None:
         """Initialize task."""
         super().__init__(working_dir, None)
         self.cac_content_root = cac_content_root
         self.product = product
+        self.oscal_profile = oscal_profile
         self.control_dir = os.path.join(self.cac_content_root, "controls")
         self.parameter_diff_info: ParameterDiffInfo = ParameterDiffInfo(
             self.cac_content_root, {}, []
@@ -449,7 +454,10 @@ class SyncOscalCdTask(TaskBase):
     def execute(self) -> int:
         # get component definition path according to product name
         cd_json_path = ModelUtils.get_model_path_for_name_and_class(
-            self.working_dir, self.product, ComponentDefinition, FileContentType.JSON
+            self.working_dir,
+            os.path.join(self.product, self.oscal_profile),
+            ComponentDefinition,
+            FileContentType.JSON,
         )
 
         logger.debug(f"Start to load {cd_json_path}")

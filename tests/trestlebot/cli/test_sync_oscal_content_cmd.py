@@ -31,6 +31,7 @@ test_product = "rhel8"
 # https://github.com/ComplianceAsCode/content/pull/12819
 test_content_dir = TEST_DATA_DIR / "content_dir"
 test_policy_id = "abcd-levels"
+test_profile_name = "simplified_nist_profile"
 
 
 def test_invalid_sync_oscal_cmd() -> None:
@@ -48,7 +49,12 @@ def test_sync_oscal_cd_to_cac_control(
     """Tests sync OSCAL component definition information to cac content."""
     repo_dir, _ = tmp_repo
     trestle_repo_path = pathlib.Path(repo_dir)
-    setup_for_compdef(trestle_repo_path, test_product, test_product)
+    setup_for_compdef(
+        trestle_repo_path,
+        test_product,
+        test_product,
+        model_name=os.path.join(test_product, test_profile_name),
+    )
     tmp_content_dir = tmp_init_dir
     setup_for_cac_content_dir(tmp_content_dir, test_content_dir)
 
@@ -58,6 +64,8 @@ def test_sync_oscal_cd_to_cac_control(
         [
             "--product",
             test_product,
+            "--oscal-profile",
+            test_profile_name,
             "--cac-content-root",
             tmp_content_dir,
             "--repo-path",

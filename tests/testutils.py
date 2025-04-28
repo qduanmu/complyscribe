@@ -207,10 +207,15 @@ def setup_for_catalog(
 
 
 def setup_for_compdef(
-    tmp_trestle_dir: pathlib.Path, comp_name: str, output_name: str
+    tmp_trestle_dir: pathlib.Path,
+    file_prefix: str,
+    output_name: str,
+    model_name: Optional[str] = None,
 ) -> argparse.Namespace:
     """Setup trestle temp directory for component definitions testing"""
-    load_from_json(tmp_trestle_dir, comp_name, comp_name, comp.ComponentDefinition)  # type: ignore
+    if model_name is None:
+        model_name = file_prefix
+    load_from_json(tmp_trestle_dir, file_prefix, model_name, comp.ComponentDefinition)  # type: ignore
     load_from_json(
         tmp_trestle_dir,
         "simplified_nist_profile",
@@ -225,7 +230,7 @@ def setup_for_compdef(
     )
     args = argparse.Namespace(
         trestle_root=tmp_trestle_dir,
-        name=comp_name,
+        name=file_prefix,
         output=output_name,
         verbose=0,
         yaml_header=None,

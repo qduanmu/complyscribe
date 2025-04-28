@@ -35,7 +35,8 @@ poetry run trestlebot sync-oscal-content component-definition \
 --committer-email test@redhat.com \
 --dry-run \
 --repo-path $trestlebot-workspace-dir \
---product $product-name
+--product $product-name \
+--oscal-profile $oscal-profile-name
 ```
 
 For more details about these options and additional flags, you can use the --help flag:

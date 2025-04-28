@@ -48,17 +48,27 @@ def sync_oscal_content_cmd(ctx: click.Context) -> None:
     help="Component title in OSCAL component definition that to find which component to sync",
     required=True,
 )
+@click.option(
+    "--oscal-profile",
+    type=str,
+    help="Name of the profile in trestle workspace",
+    required=True,
+)
 def sync_oscal_cd_to_cac_content_cmd(
     ctx: click.Context,
     cac_content_root: pathlib.Path,
     product: str,
+    oscal_profile: str,
     **kwargs: Any,
 ) -> None:
     """Sync OSCAL component definition to cac content"""
     working_dir = kwargs["repo_path"]  # From common_options
     pre_tasks: List[TaskBase] = []
     sync_cac_content_task = SyncOscalCdTask(
-        cac_content_root=cac_content_root, working_dir=working_dir, product=product
+        cac_content_root=cac_content_root,
+        working_dir=working_dir,
+        product=product,
+        oscal_profile=oscal_profile,
     )
     pre_tasks.append(sync_cac_content_task)
     # change working_dir to CaC content repo, since this task changing

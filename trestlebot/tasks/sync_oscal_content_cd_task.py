@@ -40,6 +40,7 @@ from trestlebot.tasks.authored.profile import CatalogControlResolver
 from trestlebot.tasks.base_task import TaskBase
 from trestlebot.utils import (
     get_comments_from_yaml_data,
+    get_field_comment,
     populate_if_dict_field_not_exist,
     read_cac_yaml_ordered,
     write_cac_yaml_ordered,
@@ -332,6 +333,16 @@ class SyncOscalCdTask(TaskBase):
                 logger.info(f"Add rule {rule} to control: {cac_control['id']}")
             else:
                 missing_rules.append(rule)
+
+        # if rules field is empty and there is comments under rules field,
+        # move old comments above rules field to avoid yaml file format error
+        old_rules_comments = get_field_comment(cac_control, "rules")
+        if not rule_list and old_rules_comments:
+            del cac_control.ca.items["rules"]
+            for comment in old_rules_comments:
+                cac_control.yaml_set_comment_before_after_key(
+                    "rules", before=comment.lstrip("#")
+                )
 
         # handle missing rule
         self._update_missing_rule_in_memory(cac_control, missing_rules)

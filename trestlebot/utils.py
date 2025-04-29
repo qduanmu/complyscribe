@@ -50,6 +50,28 @@ def get_comments_from_yaml_data(yaml_data: Any) -> List[str]:
     return comments
 
 
+def get_field_comment(data: CommentedMap, field_name: str) -> List[str]:
+    """
+    Get comments under specific field from data, data must be read
+    using ruamel.yaml library
+    """
+    result = []
+    comments = data.ca.items.get(field_name, [])
+
+    for comment in comments:
+        if not comment:
+            continue
+
+        if isinstance(comment, List):
+            for c in comment:
+                if isinstance(c, CommentToken):
+                    result.append(c.value)
+        elif isinstance(comment, CommentToken):
+            result.append(comment.value)
+
+    return result
+
+
 def read_cac_yaml_ordered(file_path: pathlib.Path) -> Any:
     """
     Read data from CaC content yaml file while preserving the order

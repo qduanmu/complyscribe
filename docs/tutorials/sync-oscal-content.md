@@ -60,7 +60,7 @@ The CLI performs the following sync:
 
 - Have OSCAL profile file, (transformed from CaC content using `sync-cac-content profile` cmd)
 
-### 2. Run the CLI sync-oscal-content component-definition
+### 2. Run the CLI sync-oscal-content profile
 ```shell
 poetry run trestlebot sync-oscal-content profile \
 --dry-run \

@@ -525,10 +525,11 @@ class SyncOscalCdTask(TaskBase):
                     profile_selection_obj = profile
                     break
 
+            oscal_parameters = control_implementation.set_parameters
             diff = ParameterDiffInfo(
                 self.cac_content_root,
                 profile_selection_obj.variables,
-                control_implementation.set_parameters,
+                [] if oscal_parameters is None else oscal_parameters,
             )
             diff.validate_variables()
             logger.info(f"parameters diff: {diff}")

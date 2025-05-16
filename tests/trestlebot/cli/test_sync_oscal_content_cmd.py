@@ -18,6 +18,7 @@ from tests.testutils import (
     setup_for_profile,
 )
 from trestlebot.cli.commands.sync_oscal_content import (
+    sync_oscal_catalog_to_cac_content_cmd,
     sync_oscal_cd_to_cac_content_cmd,
     sync_oscal_content_cmd,
     sync_oscal_profile_to_cac_content_cmd,
@@ -383,3 +384,39 @@ def test_sync_oscal_profile_levels_high_to_low(
         elif control["id"] == "AC-2":
             levels = control["levels"]
             assert levels == ["medium"]
+
+
+def test_sync_oscal_catalog_cmd(tmp_repo: Tuple[str, Repo], tmp_init_dir: str) -> None:
+    """Tests that sync-oscal-content catalog command."""
+    repo_dir, _ = tmp_repo
+    trestle_repo_path = pathlib.Path(repo_dir)
+    setup_for_compdef(
+        trestle_repo_path,
+        test_product,
+        test_product,
+        model_name=os.path.join(test_product, test_profile_name),
+    )
+    tmp_content_dir = tmp_init_dir
+    setup_for_cac_content_dir(tmp_content_dir, test_content_dir)
+
+    runner = CliRunner()
+    result = runner.invoke(
+        sync_oscal_catalog_to_cac_content_cmd,
+        [
+            "--cac-policy-id",
+            test_policy_id,
+            "--cac-content-root",
+            tmp_content_dir,
+            "--repo-path",
+            str(trestle_repo_path.resolve()),
+            "--committer-email",
+            "test@email.com",
+            "--committer-name",
+            "test name",
+            "--branch",
+            "test",
+            "--dry-run",
+        ],
+    )
+
+    assert result.exit_code == SUCCESS_EXIT_CODE, result.output

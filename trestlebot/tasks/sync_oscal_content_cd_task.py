@@ -316,16 +316,24 @@ class SyncOscalCdTask(TaskBase):
             ]
         )
 
-        if re.search(r"Section ([a-zA-Z]):.+", notes):
-            cac_control["notes"] = to_literal_scalar_string(combined_statements)
-        else:
-            # keep old content if notes field do not contain Section xx content
-            if cac_control["notes"] and combined_statements:
-                cac_control["notes"] = to_literal_scalar_string(
-                    cac_control["notes"] + "\n" + combined_statements
-                )
-            elif not cac_control["notes"]:
+        split_notes = re.split("Section [a-zA-Z]", notes, maxsplit=1)
+        if len(split_notes) == 1:
+            split_note = split_notes[0]
+            if re.search(r"Section [a-zA-Z]:.+", split_note) or not split_note:
                 cac_control["notes"] = to_literal_scalar_string(combined_statements)
+            elif split_note and combined_statements:
+                cac_control["notes"] = to_literal_scalar_string(
+                    split_note + "\n" + combined_statements
+                )
+        else:
+            old_notes_without_section = (
+                split_notes[1]
+                if re.search(r"Section [a-zA-Z]:.+", split_notes[0])
+                else split_notes[0]
+            )
+            cac_control["notes"] = to_literal_scalar_string(
+                old_notes_without_section + combined_statements
+            )
 
     def _update_control_file_change_in_memory(
         self, cac_control: CommentedMap, oscal_control: ImplementedRequirement

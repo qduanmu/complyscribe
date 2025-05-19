@@ -48,6 +48,8 @@ def main(product, content_root_dir, search_rule, file_type="control"):
     else:
         directory = f"{content_root_dir}/products/{product}/profiles"
     files = find_files_with_string(directory, search_rule)
+    exclude_string = "SRG-"
+    files = [file for file in files if exclude_string not in file]
     files = set(files)
     logging.info(" ".join(files))
 

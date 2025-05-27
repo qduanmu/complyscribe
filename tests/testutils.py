@@ -190,10 +190,15 @@ def setup_for_profile(
 
 
 def setup_for_catalog(
-    tmp_trestle_dir: pathlib.Path, cat_name: str, output_name: str
+    tmp_trestle_dir: pathlib.Path,
+    cat_name: str,
+    output_name: str,
+    model_name: Optional[str] = None,
 ) -> argparse.Namespace:
     """Setup trestle temp directory for catalog testing"""
-    load_from_json(tmp_trestle_dir, cat_name, cat_name, cat.Catalog)  # type: ignore
+    if model_name is None:
+        model_name = cat_name
+    path = load_from_json(tmp_trestle_dir, cat_name, model_name, cat.Catalog)  # type: ignore
     args = argparse.Namespace(
         trestle_root=tmp_trestle_dir,
         name=cat_name,
@@ -202,6 +207,8 @@ def setup_for_catalog(
         overwrite_header_values=False,
         yaml_header=None,
         force_overwrite=None,
+        model_name=model_name,
+        path=path,
     )
 
     return args

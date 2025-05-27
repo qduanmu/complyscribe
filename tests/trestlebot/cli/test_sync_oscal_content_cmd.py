@@ -14,6 +14,7 @@ from ruamel.yaml import YAML
 from tests.testutils import (
     TEST_DATA_DIR,
     setup_for_cac_content_dir,
+    setup_for_catalog,
     setup_for_compdef,
     setup_for_profile,
 )
@@ -33,6 +34,7 @@ test_product = "rhel8"
 test_content_dir = TEST_DATA_DIR / "content_dir"
 test_policy_id = "abcd-levels"
 test_profile_name = "simplified_nist_profile"
+test_catalog_name = "simplified_nist_catalog"
 
 
 def test_invalid_sync_oscal_cmd() -> None:
@@ -102,7 +104,7 @@ def test_sync_oscal_cd_to_cac_control(
 
     # check control file
     control_file_path = pathlib.Path(
-        os.path.join(tmp_content_dir, "controls", "abcd-levels.yml")
+        os.path.join(tmp_content_dir, "controls", f"{test_policy_id}.yml")
     )
     control_file_data = yaml.load(control_file_path)
     for control in control_file_data["controls"]:
@@ -219,7 +221,7 @@ def test_sync_oscal_cd_statements(
 
     # check control file
     control_file_path = pathlib.Path(
-        os.path.join(tmp_content_dir, "controls", "abcd-levels.yml")
+        os.path.join(tmp_content_dir, "controls", f"{test_policy_id}.yml")
     )
     control_file_data = yaml.load(control_file_path)
     for control in control_file_data["controls"]:
@@ -290,7 +292,7 @@ def test_sync_oscal_profile_levels_low_to_high(
     # check level change
     yaml = YAML()
     control_file_path = pathlib.Path(
-        os.path.join(tmp_content_dir, "controls", "abcd-levels.yml")
+        os.path.join(tmp_content_dir, "controls", f"{test_policy_id}.yml")
     )
     control_file_data = yaml.load(control_file_path)
     for control in control_file_data["controls"]:
@@ -341,7 +343,7 @@ def test_sync_oscal_profile_levels_high_to_low(
     yaml = YAML()
     # change control file for test
     control_file_path = pathlib.Path(
-        os.path.join(tmp_content_dir, "controls", "abcd-levels.yml")
+        os.path.join(tmp_content_dir, "controls", f"{test_policy_id}.yml")
     )
     control_file_data = yaml.load(control_file_path)
     for control in control_file_data["controls"]:
@@ -387,14 +389,14 @@ def test_sync_oscal_profile_levels_high_to_low(
 
 
 def test_sync_oscal_catalog_cmd(tmp_repo: Tuple[str, Repo], tmp_init_dir: str) -> None:
-    """Tests that sync-oscal-content catalog command."""
+    """Tests sync-oscal-content catalog command."""
     repo_dir, _ = tmp_repo
     trestle_repo_path = pathlib.Path(repo_dir)
-    setup_for_compdef(
+    setup_for_catalog(
         trestle_repo_path,
-        test_product,
-        test_product,
-        model_name=os.path.join(test_product, test_profile_name),
+        test_catalog_name,
+        test_catalog_name,
+        model_name=test_policy_id,
     )
     tmp_content_dir = tmp_init_dir
     setup_for_cac_content_dir(tmp_content_dir, test_content_dir)
@@ -420,3 +422,16 @@ def test_sync_oscal_catalog_cmd(tmp_repo: Tuple[str, Repo], tmp_init_dir: str) -
     )
 
     assert result.exit_code == SUCCESS_EXIT_CODE, result.output
+
+    # check description change
+    yaml = YAML()
+    # change control file for test
+    control_file_path = pathlib.Path(
+        os.path.join(tmp_content_dir, "controls", f"{test_policy_id}.yml")
+    )
+    control_file_data = yaml.load(control_file_path)
+    for control in control_file_data["controls"]:
+        if control["id"] == "AC-1":
+            assert control["description"] == "The organization:"
+        elif control["id"] == "AC-2":
+            assert control.get("description") is None

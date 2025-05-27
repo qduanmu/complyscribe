@@ -77,3 +77,35 @@ poetry run trestlebot sync-oscal-content profile \
 For more details about these options and additional flags, you can use the --help flag:
 `poetry run trestlebot sync-oscal-content profile --help`
 This will display a full list of available options and their descriptions.
+
+## catalog
+
+This command is to sync OSCAL catalog information to CaC content side.
+
+The CLI performs the following sync:
+
+- Sync OSCAL catalog control parts field change to CaC control files control description field
+
+### 1. Prerequisites
+
+- Initialize the [trestlebot workspace](../tutorials/github.md#3-initialize-trestlebot-workspace).
+
+- Pull the [CaC Content repository](https://github.com/ComplianceAsCode/content).
+
+- An OSCAL catalog file, (transformed from CaC content using `sync-cac-content catalog` cmd)
+
+### 2. Run the CLI sync-oscal-content profile
+```shell
+poetry run trestlebot sync-oscal-content catalog \
+--cac-policy-id nist_ocp4 \
+--cac-content-root ~/content \
+--repo-path ~/trestlebot-workspace \
+--committer-name test \
+--committer-email test@redhat.com \
+--branch main \
+--dry-run
+```
+
+For more details about these options and additional flags, you can use the --help flag:
+`poetry run trestlebot sync-oscal-content catalog --help`
+This will display a full list of available options and their descriptions.

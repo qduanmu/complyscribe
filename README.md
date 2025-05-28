@@ -45,6 +45,8 @@ Below is a table of the available commands and their current availability as a G
 | `sync-cac-content catalog`                |                              |
 | `sync-oscal-content component-definition` |                              |
 | `sync-oscal-content profile`              |                              |
+| `sync-oscal-content catalog`              |                              |
+
 
 For detailed documentation on how to use each action, see the README.md in each folder under [actions](./actions/).
 

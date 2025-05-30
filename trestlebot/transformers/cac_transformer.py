@@ -196,7 +196,7 @@ class RuleInfo:
         self._description = value
 
     def add_parameter(self, value: ParamInfo) -> None:
-        """Add a a rule parameter."""
+        """Add a rule parameter."""
         self._parameters.append(value)
 
 
@@ -304,16 +304,18 @@ class RulesTransformer:
         self._get_params(self.root, rule_obj)
 
     @staticmethod
-    def _get_params_properties(ruleset: str, param_info: ParamInfo) -> List[Property]:
+    def _get_params_properties(
+        ruleset: str, param_info: ParamInfo, suffix: str
+    ) -> List[Property]:
         """Get a set of parameter properties for a rule object."""
-        id_prop = add_prop(PARAMETER_ID, param_info.id, ruleset)
+        id_prop = add_prop(PARAMETER_ID + suffix, param_info.id, ruleset)
         description_prop = add_prop(
-            PARAMETER_DESCRIPTION,
+            PARAMETER_DESCRIPTION + suffix,
             param_info.description.replace("\n", " ").strip(),
             ruleset,
         )
         alternative_prop = add_prop(
-            PARAMETER_VALUE_ALTERNATIVES,
+            PARAMETER_VALUE_ALTERNATIVES + suffix,
             str(param_info.options),
             ruleset,
         )
@@ -327,8 +329,9 @@ class RulesTransformer:
         rule_properties.append(
             add_prop(RULE_DESCRIPTION, rule_obj.description, ruleset)
         )
-        for param in rule_obj._parameters:
-            rule_properties.extend(self._get_params_properties(ruleset, param))
+        for index, param in enumerate(rule_obj._parameters):
+            suffix = "" if len(rule_obj._parameters) == 1 else f"_{index}"
+            rule_properties.extend(self._get_params_properties(ruleset, param, suffix))
 
         return rule_properties
 

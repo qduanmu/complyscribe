@@ -1,9 +1,6 @@
-name: Draft a Trestle-Bot release PR
+name: Release PR
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:

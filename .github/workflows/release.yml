@@ -10,4 +10,77 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 # 4.2.0
+      - name: Install Dependencies for Tokens
+        run: |
+          pip install PyJWT cryptography requests
+
+      - name: Generate GitHub App JWT
+        id: generate_jwt
+        run: |
+          import jwt
+          import time
+          import os
+
+          # Ensure the environment variables are set
+          app_id = os.environ["GH_APP_ID"]
+          private_key = os.environ["GH_APP_PRIVATE_KEY"]
+
+          # Expiration time is set to 2 minutes
+          payload = {
+              "iat": int(time.time()) - 60,
+              "exp": int(time.time()) + (2 * 60),
+              "iss": app_id
+          }
+
+          encoded_jwt = jwt.encode(
+              payload,
+              private_key,
+              algorithm="RS256"
+          )
+
+          # Mask JWT in logs
+          print(f"::add-mask::{encoded_jwt}")
+
+          # Pass it to next step via GITHUB_OUTPUT
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"jwt={encoded_jwt}\n")
+        env:
+          GH_APP_ID: ${{ secrets.GH_APP_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
+        shell: python
+
+      - name: Get Installation Token
+        id: get_installation_token
+        run: |
+          import requests
+          import os
+
+          # Ensure the environment variables are set
+          jwt_token = os.environ["GH_APP_JWT"]
+          installation_id = os.environ["GH_APP_INSTALLATION_ID"]
+
+          headers = {
+              "Authorization": f"Bearer {jwt_token}",
+              "Accept": "application/vnd.github+json"
+          }
+
+          url = f"https://api.github.com/app/installations/{installation_id}/access_tokens"
+          response = requests.post(url, headers=headers)
+          response.raise_for_status()
+          token = response.json()["token"]
+
+          # Mask token in logs
+          print(f"::add-mask::{token}")
+
+          # Pass it to next step via GITHUB_OUTPUT
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"token={token}\n")
+        env:
+          GH_APP_INSTALLATION_ID: ${{ secrets.GH_APP_INSTALLATION_ID }}
+          GH_APP_JWT: ${{ steps.generate_jwt.outputs.jwt }}
+        shell: python
+
+      - name: Run release-please
+        uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 # 4.2.0
+        with:
+          token: ${{ steps.get_installation_token.outputs.token }}

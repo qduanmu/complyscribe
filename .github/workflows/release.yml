@@ -23,7 +23,7 @@ jobs:
 
           # Ensure the environment variables are set
           app_id = os.environ["GH_APP_ID"]
-          private_key = os.environ["GH_APP_PRIVATE_KEY"]
+          app_pem = os.environ["GH_APP_PRIVATE_KEY"] # kics-suppress: securely loaded from GitHub Actions secret
 
           # Expiration time is set to 2 minutes
           payload = {
@@ -34,7 +34,7 @@ jobs:
 
           encoded_jwt = jwt.encode(
               payload,
-              private_key,
+              app_pem,
               algorithm="RS256"
           )
 

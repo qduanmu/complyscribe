@@ -300,7 +300,7 @@ def test_sync_product(tmp_repo: Tuple[str, Repo]) -> None:
         "sshd_set_keepalive",
     ]
     # Check parameters props are added
-    param_ids = [p.value for p in component.props if p.name == "Parameter_Id"]
+    param_ids = [p.value for p in component.props if "Parameter_Id" in p.name]
     assert sorted(list(set(param_ids))) == [
         "var_sshd_set_keepalive",
         "var_system_crypto_policy",

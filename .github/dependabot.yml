@@ -1,24 +1,22 @@
 version: 2
 updates:
-
   - package-ecosystem: "github-actions"
     directories:
-      - '/'
-      - '/.github/actions/e2e-testing'
-      - '/.github/actions/publish-image'
-      - '/.github/actions/setup-poetry'
+      - "/"
+      - "/.github/actions/e2e-testing"
+      - "/.github/actions/publish-image"
+      - "/.github/actions/setup-poetry"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     commit-message:
-      prefix: build
-      include: scope
+      prefix: "ci"
+      include: "scope"
 
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "weekly"
-    allow:
-      - dependency-type: "all"
+    open-pull-requests-limit: 10
     commit-message:
-      prefix: build
-      include: scope
+      prefix: "chore"
+      include: "scope"

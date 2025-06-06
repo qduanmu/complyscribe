@@ -85,8 +85,8 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number,
                 labels: ['help wanted'],
-                console.log('Label "help wanted" added successfully.');
               });
+              console.log('Label "help wanted" added successfully.');
             }
 
       - name: Comment on PR

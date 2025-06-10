@@ -15,8 +15,8 @@ from trestle.common.err import TrestleError
 from trestle.core.commands.init import InitCmd
 
 from tests.testutils import clean, repo_setup
-from trestlebot import const
-from trestlebot.transformers.trestle_rule import (
+from complyscribe import const
+from complyscribe.transformers.trestle_rule import (
     Check,
     ComponentInfo,
     Control,

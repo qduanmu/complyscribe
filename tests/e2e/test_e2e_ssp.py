@@ -30,8 +30,8 @@ from trestle.oscal.ssp import SystemSecurityPlan
 
 from tests.e2e.e2e_testutils import E2ETestRunner
 from tests.testutils import clean, prepare_upstream_repo, setup_for_ssp
-from trestlebot.const import ERROR_EXIT_CODE, SUCCESS_EXIT_CODE
-from trestlebot.tasks.authored.ssp import SSPIndex
+from complyscribe.const import ERROR_EXIT_CODE, SUCCESS_EXIT_CODE
+from complyscribe.tasks.authored.ssp import SSPIndex
 
 
 logger = logging.getLogger(__name__)

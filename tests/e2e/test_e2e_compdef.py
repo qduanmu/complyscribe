@@ -17,7 +17,7 @@ from trestle.oscal.profile import Profile
 
 from tests.e2e.e2e_testutils import E2ETestRunner
 from tests.testutils import load_from_json, setup_for_profile, setup_rules_view
-from trestlebot.const import RULES_VIEW_DIR, SUCCESS_EXIT_CODE
+from complyscribe.const import RULES_VIEW_DIR, SUCCESS_EXIT_CODE
 
 
 logger = logging.getLogger(__name__)

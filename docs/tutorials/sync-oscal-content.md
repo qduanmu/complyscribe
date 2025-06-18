@@ -15,7 +15,7 @@ The CLI performs the following sync:
 - Add a hint comment to the control file when a missing rule is found in the CaC content repo.
 - Sync OSCAL component definition control status changes to CaC content control file. Since status mapping between
 cac and OSCAL is many-to-many relationship, if status can not be determined when sync, then add a comment to let user
-decide. Discussion detail in [doc](https://github.com/complytime/trestle-bot/discussions/511)
+decide. Discussion detail in [doc](https://github.com/complytime/complyscribe/discussions/511)
 - Add new option to cac var file when found variable exists but missing the option we sync.
 - Sync OSCAL component definition statements field to CaC control notes field
 

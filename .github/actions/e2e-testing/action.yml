@@ -1,5 +1,5 @@
 name: "e2e-testing"
-description: "Composite action for trestle-bot end-to-end tests."
+description: "Composite action for complyscribe end-to-end tests."
 
 inputs:
   build:
@@ -8,7 +8,7 @@ inputs:
     default: "true"
   image:
     description: |
-      "Name of the trestlebot image you want to test if pre-existing. Required if build is false."
+      "Name of the complyscribe image you want to test if pre-existing. Required if build is false."
     required: false
 
 runs:
@@ -24,7 +24,7 @@ runs:
       if: ${{ inputs.build == 'false' }}
       run: |
         podman pull "${IMAGE}"
-        echo "TRESTLEBOT_IMAGE=$(sed -e 's/^docker-daemon://' <<<${IMAGE})" >> "$GITHUB_ENV"
+        echo "COMPLYSCRIBE_IMAGE=$(sed -e 's/^docker-daemon://' <<<${IMAGE})" >> "$GITHUB_ENV"
       env:
         IMAGE: ${{ inputs.image }}
       shell: bash

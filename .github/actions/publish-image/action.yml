@@ -1,5 +1,5 @@
 name: "publish-image"
-description: "Composite action to publish trestle-bot images."
+description: "Composite action to publish complyscribe images."
 
 inputs:
   image:

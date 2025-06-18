@@ -12,7 +12,7 @@ permissions: read-all
 
 jobs:
   analysis:
-    if: github.repository == 'RedHatProductSecurity/trestle-bot'
+    if: github.repository == 'RedHatProductSecurity/complyscribe'
     name: Scorecard analysis
     runs-on: ubuntu-latest
     permissions:

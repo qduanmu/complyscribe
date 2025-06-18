@@ -1,4 +1,4 @@
-# trestlebot Rules Transform Action
+# ComplyScribe Rules Transform Action
 
 ## Basic Configuration
 
@@ -10,9 +10,9 @@ name: Example Workflow
 
     steps:
       - uses: actions/checkout@v3
-      - name: Run trestlebot
-        id: trestlebot
-        uses: RedHatProductSecurity/trestle-bot/actions/rules-transform@main
+      - name: Run complyscribe 
+        id: complyscribe 
+        uses: RedHatProductSecurity/complyscribe/actions/rules-transform@main
         with:
           markdown_dir: "markdown/components"
           
@@ -23,9 +23,9 @@ With custom rules directory:
 ```yaml 
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/rules-transform@main
+    - name: Run complyscribe 
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/rules-transform@main
       with:
         markdown_dir: "markdown/components"
         rules_view_dir: "custom-rules-dir/"
@@ -51,7 +51,7 @@ With custom rules directory:
 | commit_author_name | Name used for the commit author. Defaults to the username of whoever triggered this workflow run. | ${{ github.actor }} | False |
 | commit_author_email | Email address used for the commit author. | ${{ github.actor }}@users.noreply.github.com | False |
 | debug | Enable debug logging messages. | false | False |
-| config | Path to trestlebot configuration file. | .trestlebot/config.yml | False |
+| config | Path to complyscribe configuration file. | .complyscribe/config.yml | False |
 
 <!-- END_ACTION_INPUTS -->
 
@@ -75,9 +75,9 @@ The purpose of this action is to sync the rules view data in YAML to OSCAL with 
 ```yaml
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/rules-transform@main
+    - name: Run complyscribe 
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/rules-transform@main
       with:
         branch: "another-branch"
 ```
@@ -87,9 +87,9 @@ The purpose of this action is to sync the rules view data in YAML to OSCAL with 
 ```yaml
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/rules-transform@main
+    - name: Run complyscribe 
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/rules-transform@main
       with:
         branch: "transform-${{ github.run_id }}"
         target_branch: "main"

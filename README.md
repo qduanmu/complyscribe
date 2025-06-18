@@ -1,4 +1,4 @@
-# trestle-bot
+# complyscribe
 
 [![Pre commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![License](https://img.shields.io/badge/license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
@@ -6,9 +6,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rh-psce_trestle-bot&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rh-psce_trestle-bot)
 
 
-** **Note: Trestle-bot has moved from [RedHatProductSecurity](https://github.com/RedHatProductSecurity/) to the [Complytime](https://github.com/complytime/) GitHub organization.** **
-
-trestle-bot is a CLI tool that assists users in leveraging [Compliance-Trestle](https://github.com/oscal-compass/compliance-trestle) in CI/CD workflows for [OSCAL](https://github.com/usnistgov/OSCAL) formatted compliance content management.
+ComplyScribe is a CLI tool that assists users in leveraging [Compliance-Trestle](https://github.com/oscal-compass/compliance-trestle) in CI/CD workflows for [OSCAL](https://github.com/usnistgov/OSCAL) formatted compliance content management.
 
 > WARNING: This project is currently under initial development. APIs may be changed incompatibly from one commit to another.
 
@@ -53,7 +51,7 @@ For detailed documentation on how to use each action, see the README.md in each 
 
 ### Supported Git Providers
 
-> Note: Only applicable if using `trestle-bot` to create pull requests. Automatically detecting the git
+> Note: Only applicable if using `complyscribe` to create pull requests. Automatically detecting the git
 provider information is supported for GitHub Actions (GitHub) and GitLab CI (GitLab).
 
 - GitHub
@@ -61,24 +59,24 @@ provider information is supported for GitHub Actions (GitHub) and GitLab CI (Git
 
 ### Run as a Container
 
-> Note: When running the commands in a container, all are prefixed with `trestlebot` (e.g. `trestlebot autosync`). The default entrypoint for the container is the autosync command.
+> Note: When running the commands in a container, all are prefixed with `complyscribe` (e.g. `complyscribe autosync`). The default entrypoint for the container is the autosync command.
 
 Build and run the container locally:
 
 ```bash
-podman build -f Dockerfile -t trestle-bot .
-podman run -v $(pwd):/data -w /data trestle-bot
+podman build -f Dockerfile -t complyscribe .
+podman run -v $(pwd):/data -w /data complyscribe 
 ```
 
 Container images are available in `quay.io`:
 
 ```bash
-podman run -v $(pwd):/data -w /data quay.io/continuouscompliance/trestle-bot:<tag>
+podman run -v $(pwd):/data -w /data quay.io/continuouscompliance/complyscribe:<tag>
 ```
 
 ## Contributing
 
-For information about contributing to trestle-bot, see the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
+For information about contributing to complyscribe, see the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
 
 ## License
 

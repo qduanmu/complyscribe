@@ -21,7 +21,7 @@ If your workflow requires that this action create a pull request (`target_branch
 ```yaml
 # github_token has no default. 
 # To use default token use ${{ secrets.GITHUB_TOKEN }}
-- uses: RedHatProductSecurity/trestle-bot@main
+- uses: RedHatProductSecurity/complyscribe@main
   with:
     markdown_path: "markdown/profiles"
     assemble_model: "profile"

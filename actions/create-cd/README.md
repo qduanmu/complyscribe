@@ -1,4 +1,4 @@
-# trestlebot Create Component Definition Action
+# ComplyScribe Create Component Definition Action
 
 ## Basic Configuration
 
@@ -9,9 +9,9 @@ name: Example Workflow
 
     steps:
       - uses: actions/checkout@v3
-      - name: Run trestlebot
-        id: trestlebot
-        uses: RedHatProductSecurity/trestle-bot/actions/create-cd@main
+      - name: Run complyscribe 
+        id: complyscribe 
+        uses: RedHatProductSecurity/complyscribe/actions/create-cd@main
         with:
           markdown_dir: "markdown/components"
           profile_name: "profile"
@@ -44,7 +44,7 @@ name: Example Workflow
 | commit_author_name | Name used for the commit author. Defaults to the username of whoever triggered this workflow run. | ${{ github.actor }} | False |
 | commit_author_email | Email address used for the commit author. | ${{ github.actor }}@users.noreply.github.com | False |
 | debug | Enable debug logging messages. | false | False |
-| config | Path to trestlebot configuration file. | .trestlebot/config.yml | False |
+| config | Path to complyscribe configuration file. | .complyscribe/config.yml | False |
 
 <!-- END_ACTION_INPUTS -->
 
@@ -72,9 +72,9 @@ The purpose of this action is to create a new component definition and commit ch
 ```yaml
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/create-cd@main
+    - name: Run complyscribe 
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/create-cd@main
       with:
         markdown_dir: "markdown/components"
         profile_name: "profile"
@@ -89,9 +89,9 @@ The purpose of this action is to create a new component definition and commit ch
 ```yaml
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/create-cd@main
+    - name: Run complyscribe 
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/create-cd@main
       with:
         markdown_dir: "markdown/components"
         profile_name: "profile"

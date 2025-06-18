@@ -80,7 +80,6 @@ def complytime_home() -> YieldFixture[Path]:
             result = subprocess.run(
                 [
                     scripts_dir / "get-github-release.py",
-                    "--prerelease",
                     "https://github.com/complytime/complytime",
                 ],
                 cwd=complytime_cache_dir,

@@ -131,7 +131,7 @@ make format
 make lint
 ```
 
-For non-Python files, we use [Megalinter](https://github.com/oxsecurity/megalinter) to lint in a CI task. See [megalinter.yaml](https://github.com/RedHatProductSecurity/complyscribe/blob/main/.mega-linter.yml) for more information.
+For non-Python files, we use [Megalinter](https://github.com/oxsecurity/megalinter) to lint in a CI task. See [megalinter.yaml](https://github.com/complytime/complyscribe/blob/main/.mega-linter.yml) for more information.
 
 #### Type Hints and Static Type Checking
 

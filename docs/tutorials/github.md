@@ -10,8 +10,8 @@ Before moving on, please ensure the following is completed:
 1. Create a new (or use an existing) empty GitHub repository
 2. Clone the repo to a local workstation
 3. Install complyscribe
-    * Option 1: Clone the [complyscribe](https://github.com/RedHatProductSecurity/complyscribe/tree/main) repo to a local workstation and run `poetry install`
-    * Option 2: Use the [complyscribe container image](https://github.com/RedHatProductSecurity/complyscribe?tab=readme-ov-file#run-as-a-container)
+    * Option 1: Clone the [complyscribe](https://github.com/complytime/complyscribe/tree/main) repo to a local workstation and run `poetry install`
+    * Option 2: Use the [complyscribe container image](https://github.com/complytime/complyscribe?tab=readme-ov-file#run-as-a-container)
 
 
 ### 2. Set Permissions for GitHub Actions
@@ -29,7 +29,7 @@ The `complyscribe` commands will be run inside of GitHub actions.  These command
 
 ### 3. Initialize complyscribe Workspace
 
-The `complyscribe init` command will initialize the empty GitHub repository.  Unlike other complyscribe commands, this command is run on the local workstation.  The complyscribe commands can be installed by cloning the [complyscribe](https://github.com/RedHatProductSecurity/complyscribe/tree/main) repo and running `poetry install`. Alternatively these commands can be run using the [complyscribe container image](https://github.com/RedHatProductSecurity/complyscribe?tab=readme-ov-file#run-as-a-container).
+The `complyscribe init` command will initialize the empty GitHub repository.  Unlike other complyscribe commands, this command is run on the local workstation.  The complyscribe commands can be installed by cloning the [complyscribe](https://github.com/complytime/complyscribe/tree/main) repo and running `poetry install`. Alternatively these commands can be run using the [complyscribe container image](https://github.com/complytime/complyscribe?tab=readme-ov-file#run-as-a-container).
 
 For this tutorial example, we will be authoring a component-definition.
 

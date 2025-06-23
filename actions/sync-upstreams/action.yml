@@ -1,4 +1,4 @@
-name: "trestle-bot-sync-upstreams"
+name: "complyscribe-sync-upstreams"
 author: "Red Hat Product Security"
 description: "An action to sync and validate OSCAL content from upstream repositories."
 
@@ -65,9 +65,9 @@ inputs:
     required: false
     default: "false"
   config:
-    description: Path to trestlebot configuration file.
+    description: Path to complyscribe configuration file.
     required: false
-    default: ".trestlebot/config.yml"
+    default: ".complyscribe/config.yml"
 
 outputs:
   changes:
@@ -82,7 +82,7 @@ runs:
   image: "../../Dockerfile"
   entrypoint: "/sync-upstreams-entrypoint.sh"
   env:
-    TRESTLEBOT_REPO_ACCESS_TOKEN: ${{ inputs.github_token }}
+    COMPLYSCRIBE_REPO_ACCESS_TOKEN: ${{ inputs.github_token }}
 
 branding:
   icon: "check"

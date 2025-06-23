@@ -1,6 +1,6 @@
-# The trestlebot command line sync-oscal-content Tutorial
+# The complyscribe command line sync-oscal-content Tutorial
 
-This tutorial provides how to use `trestlebot sync-oscal-content` sync OSCAL models to [CaC content](https://github.com/ComplianceAsCode/content).
+This tutorial provides how to use `complyscribe sync-oscal-content` sync OSCAL models to [CaC content](https://github.com/ComplianceAsCode/content).
 
 Currently, this command has two sub-command: `component-definition` and `profile`
 
@@ -15,13 +15,13 @@ The CLI performs the following sync:
 - Add a hint comment to the control file when a missing rule is found in the CaC content repo.
 - Sync OSCAL component definition control status changes to CaC content control file. Since status mapping between
 cac and OSCAL is many-to-many relationship, if status can not be determined when sync, then add a comment to let user
-decide. Discussion detail in [doc](https://github.com/complytime/trestle-bot/discussions/511)
+decide. Discussion detail in [doc](https://github.com/complytime/complyscribe/discussions/511)
 - Add new option to cac var file when found variable exists but missing the option we sync.
 - Sync OSCAL component definition statements field to CaC control notes field
 
 ### 1. Prerequisites
 
-- Initialize the [trestlebot workspace](../tutorials/github.md#3-initialize-trestlebot-workspace).
+- Initialize the [complyscribe workspace](../tutorials/github.md#3-initialize-complyscribe-workspace).
 
 - Pull the [CaC Content repository](https://github.com/ComplianceAsCode/content).
 
@@ -29,19 +29,19 @@ decide. Discussion detail in [doc](https://github.com/complytime/trestle-bot/dis
 
 ### 2. Run the CLI sync-oscal-content component-definition
 ```shell
-poetry run trestlebot sync-oscal-content component-definition \ 
+poetry run complyscribe sync-oscal-content component-definition \ 
 --branch main \
 --cac-content-root $cac-content-dir \
 --committer-name test \
 --committer-email test@redhat.com \
 --dry-run \
---repo-path $trestlebot-workspace-dir \
+--repo-path $complyscribe-workspace-dir \
 --product $product-name \
 --oscal-profile $oscal-profile-name
 ```
 
 For more details about these options and additional flags, you can use the --help flag:
-`poetry run trestlebot sync-oscal-content component-definition --help`
+`poetry run complyscribe sync-oscal-content component-definition --help`
 This will display a full list of available options and their descriptions.
 
 
@@ -55,7 +55,7 @@ The CLI performs the following sync:
 
 ### 1. Prerequisites
 
-- Initialize the [trestlebot workspace](../tutorials/github.md#3-initialize-trestlebot-workspace).
+- Initialize the [complyscribe workspace](../tutorials/github.md#3-initialize-complyscribe-workspace).
 
 - Pull the [CaC Content repository](https://github.com/ComplianceAsCode/content).
 
@@ -63,9 +63,9 @@ The CLI performs the following sync:
 
 ### 2. Run the CLI sync-oscal-content profile
 ```shell
-poetry run trestlebot sync-oscal-content profile \
+poetry run complyscribe sync-oscal-content profile \
 --dry-run \
---repo-path ~/trestlebot-workspace \
+--repo-path ~/complyscribe-workspace \
 --committer-email test@redhat.com \
 --committer-name test\
 --branch main \
@@ -75,7 +75,7 @@ poetry run trestlebot sync-oscal-content profile \
 ```
 
 For more details about these options and additional flags, you can use the --help flag:
-`poetry run trestlebot sync-oscal-content profile --help`
+`poetry run complyscribe sync-oscal-content profile --help`
 This will display a full list of available options and their descriptions.
 
 ## catalog
@@ -88,7 +88,7 @@ The CLI performs the following sync:
 
 ### 1. Prerequisites
 
-- Initialize the [trestlebot workspace](../tutorials/github.md#3-initialize-trestlebot-workspace).
+- Initialize the [complyscribe workspace](../tutorials/github.md#3-initialize-complyscribe-workspace).
 
 - Pull the [CaC Content repository](https://github.com/ComplianceAsCode/content).
 
@@ -96,10 +96,10 @@ The CLI performs the following sync:
 
 ### 2. Run the CLI sync-oscal-content profile
 ```shell
-poetry run trestlebot sync-oscal-content catalog \
+poetry run complyscribe sync-oscal-content catalog \
 --cac-policy-id nist_ocp4 \
 --cac-content-root ~/content \
---repo-path ~/trestlebot-workspace \
+--repo-path ~/complyscribe-workspace \
 --committer-name test \
 --committer-email test@redhat.com \
 --branch main \
@@ -107,5 +107,5 @@ poetry run trestlebot sync-oscal-content catalog \
 ```
 
 For more details about these options and additional flags, you can use the --help flag:
-`poetry run trestlebot sync-oscal-content catalog --help`
+`poetry run complyscribe sync-oscal-content catalog --help`
 This will display a full list of available options and their descriptions.

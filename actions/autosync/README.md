@@ -1,4 +1,4 @@
-# trestlebot AutoSync Action
+# ComplyScribe AutoSync Action
 
 ## Basic Configuration
 
@@ -10,9 +10,9 @@ name: Example Workflow
 
     steps:
       - uses: actions/checkout@v3
-      - name: Run trestlebot
-        id: trestlebot
-        uses: RedHatProductSecurity/trestle-bot/actions/autosync@main
+      - name: Run complyscribe 
+        id: complyscribe 
+        uses: RedHatProductSecurity/complyscribe/actions/autosync@main
         with:
           markdown_dir: "markdown/profiles"
           oscal_model: "profile"
@@ -42,7 +42,7 @@ name: Example Workflow
 | commit_author_name | Name used for the commit author. Defaults to the username of whoever triggered this workflow run. | ${{ github.actor }} | False |
 | commit_author_email | Email address used for the commit author. | ${{ github.actor }}@users.noreply.github.com | False |
 | debug | Enable debug logging messages. | false | False |
-| config | Path to trestlebot configuration file. | .trestlebot/config.yml | False |
+| config | Path to complyscribe configuration file. | .complyscribe/config.yml | False |
 
 <!-- END_ACTION_INPUTS -->
 
@@ -81,9 +81,9 @@ The purpose of this action is to sync JSON and Markdown data with `compliance-tr
 ```yaml
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/autosync@main
+    - name: Run complyscribe 
+      id: complyscribe
+      uses: RedHatProductSecurity/complyscribe/actions/autosync@main
       with:
         markdown_dir: "markdown/profiles"
         oscal_model: "profile"
@@ -95,9 +95,9 @@ The purpose of this action is to sync JSON and Markdown data with `compliance-tr
 ```yaml
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/autosync@main
+    - name: Run complyscribe 
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/autosync@main
       with:
         markdown_dir: "markdown/profiles"
         oscal_model: "profile"
@@ -113,9 +113,9 @@ This can be helpful if you want to enforce that the content is in sync before it
 ```yaml
     steps:
       - uses: actions/checkout@v3
-      - name: Run trestlebot
+      - name: Run complyscribe 
         id: check
-        uses: RedHatProductSecurity/trestle-bot/actions/autosync@main
+        uses: RedHatProductSecurity/complyscribe/actions/autosync@main
         with:
           markdown_dir: "markdown/profiles"
           oscal_model: "profile"

@@ -1,12 +1,12 @@
-# Contributing to trestlebot
+# Contributing to ComplyScribe 
 
-Thank you for your interest in the trestlebot project.
+Thank you for your interest in the complyscribe project.
 
 Before you start contributing, please take a moment to read through the guide below.
 
 > WARNING: This project is currently under initial development. APIs may be changed incompatibly from one commit to another.
 
-- [Contributing to trestlebot](#contributing-to-trestlebot)
+- [Contributing to complyscribe](#contributing-to-complyscribe)
   - [How To Contribute](#how-to-contribute)
   - [Opening a Pull Request](#opening-a-pull-request)
   - [Developer Guide](#developer-guide)
@@ -66,13 +66,13 @@ For workflow diagrams, see the [diagrams](./docs/workflows/) under the `docs` fo
 
 #### Components
 
-1. CI Provider - Runs or builds and runs trestle-bot container
-2. Trestle Bot - Provides logic for managing workspace and containerized environment for use in workflows
+1. CI Provider - Runs or builds and runs complyscribe container
+2. ComplyScribe - Provides logic for managing workspace and containerized environment for use in workflows
 3. Compliance-Trestle - Upstream library that provides core logic for how OSCAL content is managed
 
 #### Code structure
 
-- `actions` - Provides specific logic for `trestle-bot` tasks that are packaged as Actions. See [README.md](./actions/README.md) for more information.
+- `actions` - Provides specific logic for `complyscribe` tasks that are packaged as Actions. See [README.md](./actions/README.md) for more information.
 - `cli` - Provides top level logic for specific user-facing tasks. These tasks are not necessarily related so they are not organized into a hierarchical command structure, but they do share some common modules.
 - `cli/commands` - Provides top level logic for commands and their associated subcommands. The commands are accessed by the single entrypoint `root.py`.
 - `cli/options` - Provides command line options and arguments that are frequently used within `cli/commands`.
@@ -102,7 +102,7 @@ make update-action-readmes
 
 #### Authoring CI Workflows
 
-The CI workflows for trestle-bot leverage third party actions pinned to a hash value which is updated by `dependabot.yml`. The purpose of pinning actions to a full length commit SHA is to ensure that the action's code and behavior remain consistent. Actions that are pinned to full length commit SHAs act as immutable releases which allow for distinction between versions and an accurate history log. When selecting a commit SHA to include, the SHA value that is associated with the version of the action should be chosen from the associated action's repository. Dependabot checks for the action's reference against the latest version ensuring a secure and consistent approach to managing dependencies and version updating.
+The CI workflows for complyscribe leverage third party actions pinned to a hash value which is updated by `dependabot.yml`. The purpose of pinning actions to a full length commit SHA is to ensure that the action's code and behavior remain consistent. Actions that are pinned to full length commit SHAs act as immutable releases which allow for distinction between versions and an accurate history log. When selecting a commit SHA to include, the SHA value that is associated with the version of the action should be chosen from the associated action's repository. Dependabot checks for the action's reference against the latest version ensuring a secure and consistent approach to managing dependencies and version updating.
 
 To generate a pin for a third party action, there should be a full length commit SHA associated with the version of the action being referenced. The reference used is the full length SHA, tag, or branch that dependabot will use when updating dependencies and bumping versions.
 
@@ -131,7 +131,7 @@ make format
 make lint
 ```
 
-For non-Python files, we use [Megalinter](https://github.com/oxsecurity/megalinter) to lint in a CI task. See [megalinter.yaml](https://github.com/RedHatProductSecurity/trestle-bot/blob/main/.mega-linter.yml) for more information.
+For non-Python files, we use [Megalinter](https://github.com/oxsecurity/megalinter) to lint in a CI task. See [megalinter.yaml](https://github.com/complytime/complyscribe/blob/main/.mega-linter.yml) for more information.
 
 #### Type Hints and Static Type Checking
 
@@ -162,21 +162,21 @@ make test-integration
 #### Run with poetry
 ```
 make develop
-poetry run trestlebot autosync
-poetry run trestlebot rules-transform
-poetry run trestlebot create compdef
-poetry run trestlebot sync-upstreams
-poetry run trestlebot create ssp
+poetry run complyscribe autosync
+poetry run copmlyscribe rules-transform
+poetry run complyscribe create compdef
+poetry run complyscribe sync-upstreams
+poetry run complyscribe create ssp
 ```
 
 #### Local testing
 
-For this guide, we will be using `podman` to test trestlebot in a running container.
+For this guide, we will be using `podman` to test complyscribe in a running container.
 
 1. Build the image
 
 ```bash
-podman build -f Dockerfile -t localhost:5000/trestlebot:latest
+podman build -f Dockerfile -t localhost:5000/complyscribe:latest
 ```
 
 2. Create an environment variables file if testing with the entrypoint script.
@@ -218,7 +218,7 @@ cat my-token.txt | podman secret create repo-secret -
 4. Run the container
 
 ```bash
-podman run --entrypoint /entrypoint.sh --secret repo-secret,type=env,target=TRESTLEBOT_REPO_ACCESS_TOKEN --env-file=envfile -v my-trestle-space:/data -w /data localhost:5000/trestlebot:latest
+podman run --entrypoint /entrypoint.sh --secret repo-secret,type=env,target=COMPLYSCRIBE_REPO_ACCESS_TOKEN --env-file=envfile -v my-trestle-space:/data -w /data localhost:5000/complyscribe:latest
 ```
 
 #### Local GitHub actions

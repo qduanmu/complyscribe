@@ -1,6 +1,6 @@
 # End-to-End Testing
 
-End-to-end tests are used to verify the CLI functionality of trestle-bot from a user's perspective, running in a containerized environment.
+End-to-end tests are used to verify the CLI functionality of complyscribe from a user's perspective, running in a containerized environment.
 
 ## Prerequisites
 
@@ -23,8 +23,8 @@ To run the end-to-end tests, follow these steps:
 1. Clone the project repository:
 
    ```bash
-   git clone https://github.com/RedHatProductSecurity/trestle-bot.git
-   cd trestle-bot
+   git clone https://github.com/RedHatProductSecurity/complyscribe.git
+   cd complyscribe 
    ```
 
 2. Install the project dependencies:
@@ -48,11 +48,11 @@ To run the end-to-end tests, follow these steps:
 
   ```bash
   podman build -t localhost/mock-server:latest -f tests/e2e/Dockerfile tests/e2e
-  podman build -t localhost/trestlebot:latest -f Dockerfile .
+  podman build -t localhost/complyscribe:latest -f Dockerfile .
 
   # Use a prebuilt image from quay.io
-  podman pull quay.io/continuouscompliance/trestle-bot:latest
-  export TRESTLEBOT_IMAGE=quay.io/continuouscompliance/trestle-bot:latest
+  podman pull quay.io/continuouscompliance/complyscribe:latest
+  export COMPLYSCRIBE_IMAGE=quay.io/continuouscompliance/complyscribe:latest
   ```
 
 - When created tests that push to a branch, ensure the name is "test". This is because the mock API server is configured to only allow pushes to a branch named "test".

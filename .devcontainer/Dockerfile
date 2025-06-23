@@ -11,11 +11,11 @@ RUN dnf -y update && \
                    gcc-c++ && \
     rm -rf /var/cache /var/log/dnf* /var/log/yum.*
 
-RUN useradd -u 1000 trestlebot
+RUN useradd -u 1000 complyscribe
 
-ENV HOME=/home/trestlebot
-ENV PYSETUP_PATH="$HOME/trestle-bot" \
-    VENV_PATH="$HOME/trestle-bot/.venv"
+ENV HOME=/home/complyscribe
+ENV PYSETUP_PATH="$HOME/complyscribe" \
+    VENV_PATH="$HOME/complyscribe/.venv"
 
 RUN mkdir -p "$PYSETUP_PATH"
 
@@ -25,6 +25,6 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip \
     && python3 -m pipx install poetry=="$POETRY_VERSION"
 
 # set permissions
-RUN chown trestlebot:trestlebot -R /home/trestlebot
+RUN chown complyscribe:complyscribe-R /home/complyscribe
 
-USER trestlebot
+USER complyscribe

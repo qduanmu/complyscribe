@@ -1,7 +1,7 @@
-site_name: trestle-bot
-site_description: Documentation for trestle-bot.
-repo_name: trestle-bot
-repo_url: https://github.com/RedHatProductSecurity/trestle-bot/
+site_name: complyscribe
+site_description: Documentation for complyscribe.
+repo_name: complyscribe 
+repo_url: https://github.com/RedHatProductSecurity/complyscribe/
 
 theme:
   name: material

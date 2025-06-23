@@ -1,19 +1,19 @@
-# GitHub Actions for trestle-bot
+# GitHub Actions for complyscribe 
 
 ## Introduction
 
-This document provides instructions and examples for creating and using GitHub Actions in the `trestle-bot` project. GitHub Actions are used to automate various tasks related to workspace management and checks.
+This document provides instructions and examples for creating and using GitHub Actions in the `complyscribe` project. GitHub Actions are used to automate various tasks related to workspace management and checks.
 
 ## Directory Structure
 
-- Actions related to trestle-bot are located in the `actions` directory.
-- Actions should correlate a command under the `trestlebot/cli/commands` directory.
+- Actions related to complyscribe are located in the `actions` directory.
+- Actions should correlate a command under the `complyscribe/cli/commands` directory.
 
 ## Adding a New Action
 
-Contributors should scope trestle-bot actions to workspace management and checks. To add a new action:
+Contributors should scope complyscribe actions to workspace management and checks. To add a new action:
 
-> Prerequisite: An entrypoint was created under the `trestlebot/cli` directory and added to the `pyproject.toml` under `[tool.poetry.scripts]`
+> Prerequisite: An entrypoint was created under the `complyscribe/cli` directory and added to the `pyproject.toml` under `[tool.poetry.scripts]`
 
 1. Create a new directory in the `actions` directory.
 2. In the new directory, create an `action.yml` file that references the Dockerfile in the root of the repository.
@@ -25,7 +25,7 @@ For more details, consult the [GitHub Actions documentation](https://docs.github
 
 ## Examples
 
-Here are examples of workflow snippets that demonstrate how `trestle-bot` actions can be used for authoring. For the examples below, the OSCAL Component Definition authoring workflow is explored.
+Here are examples of workflow snippets that demonstrate how `complyscribe` actions can be used for authoring. For the examples below, the OSCAL Component Definition authoring workflow is explored.
 
 See each action README for more details about the inputs and outputs.
 
@@ -46,7 +46,7 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      - uses: RedHatProductSecurity/trestle-bot/actions/create-cd@main
+      - uses: RedHatProductSecurity/complyscribe/actions/create-cd@main
         with:
           markdown_dir: "markdown/components"
           profile_name: "my-profile"
@@ -94,7 +94,7 @@ jobs:
       # edit step. So autosync runs assemble then generate.
       - name: AutoSync
         id: autosync
-        uses: RedHatProductSecurity/trestle-bot/actions/autosync@main
+        uses: RedHatProductSecurity/complyscribe/actions/autosync@main
         with:
           markdown_dir: "md_comp"
           oscal_model: "compdef"
@@ -113,7 +113,7 @@ jobs:
       - name: Transform
         if: steps.changes.outputs.rules == 'true'
         id: transform
-        uses: RedHatProductSecurity/trestle-bot/actions/rules-transform@main
+        uses: RedHatProductSecurity/complyscribe/actions/rules-transform@main
         with:
           markdown_dir: "md_comp"
           commit_message: "Auto-transform rules [skip ci]" 
@@ -146,7 +146,7 @@ jobs:
         uses: actions/checkout@v4
       - name: AutoSync
         id: autosync
-        uses: RedHatProductSecurity/trestle-bot/actions/autosync@main
+        uses: RedHatProductSecurity/complyscribe/actions/autosync@main
         with:
           markdown_dir: "md_comp"
           oscal_model: "compdef"
@@ -160,7 +160,7 @@ jobs:
       - name: Transform
         if: steps.changes.outputs.rules == 'true'
         id: transform
-        uses: RedHatProductSecurity/trestle-bot/actions/rules-transform@main
+        uses: RedHatProductSecurity/complyscribe/actions/rules-transform@main
         with:
           markdown_dir: "md_comp"
           dry_run: true
@@ -189,8 +189,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Sync content
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/sync-upstreams@main
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/sync-upstreams@main
       with:
         branch: "sync-upstream-${{ github.run_id }}"
         # We set the target branch here to create a pull request
@@ -200,15 +200,15 @@ jobs:
         sources: |
           https://github.com/myorg/myprofiles@main
     - uses: actions/labeler@v4
-      if: steps.trestlebot.outputs.changes == 'true'
+      if: steps.complyscribe.outputs.changes == 'true'
       with:   
         pr-number: |
-            ${{ steps.trestlebot.outputs.pr_number }} 
+            ${{ steps.complyscribe.outputs.pr_number }} 
     # Regenerate Markdown for an easier to control diff review and
     # to understand change impact.
     - name: Regenerate markdown (optionally)
-      if: steps.trestlebot.outputs.changes == 'true'
-      uses: RedHatProductSecurity/trestle-bot/actions/autosync@main
+      if: steps.complyscribe.outputs.changes == 'true'
+      uses: RedHatProductSecurity/complyscribe/actions/autosync@main
       with:
         markdown_dir: "markdown/components"
         oscal_model: "compdef"
@@ -242,7 +242,7 @@ jobs:
       - name: Clone
         uses: actions/checkout@v4
       - name: Autosync
-        uses: RedHatProductSecurity/trestle-bot/actions/autosync@main
+        uses: RedHatProductSecurity/complyscribe/actions/autosync@main
         with:
           markdown_dir: "md_comp"
           oscal_model: "compdef"

@@ -1,15 +1,15 @@
 # Authoring Tutorial
 
-This tutorial provides an overview of the authoring process using `trestlebot`.  We will use the component definition created in the [GitHub tutorial](https://redhatproductsecurity.github.io/trestle-bot/tutorials/github/) as our starting point.  This tutorial will demonstrate the workflow for updating Markdown content and syncing those changes to OSCAL.
+This tutorial provides an overview of the authoring process using `complyscribe`.  We will use the component definition created in the [GitHub tutorial](https://redhatproductsecurity.github.io/complyscribe/tutorials/github/) as our starting point.  This tutorial will demonstrate the workflow for updating Markdown content and syncing those changes to OSCAL.
 
 ## 1. Prerequisites
 
-- Complete the [GitHub tutorial](https://complytime.github.io/trestle-bot/tutorials/github/)
+- Complete the [GitHub tutorial](https://complytime.github.io/complyscribe/tutorials/github/)
 
 
 ## 2. Edit in Markdown
 
-We will begin where we left off at the end of the [GitHub tutorial](https://redhatproductsecurity.github.io/trestle-bot/tutorials/github/).  Our repository has a newly created component definition named `my-first-compdef` with corresponding content in the `markdown/` and `component-definitions/` directories.  We will now demonstrate how to author changes in Markdown and produce updated OSCAL content.
+We will begin where we left off at the end of the [GitHub tutorial](https://redhatproductsecurity.github.io/complyscribe/tutorials/github/).  Our repository has a newly created component definition named `my-first-compdef` with corresponding content in the `markdown/` and `component-definitions/` directories.  We will now demonstrate how to author changes in Markdown and produce updated OSCAL content.
 
 1. Navigate to the `markdown/component-definitions/my-first-compdef/test-component/nist_rev5_800_53/ac` directory and select the `ac-1.md` file.
 2. Click the `Edit this file` (pencil) icon.
@@ -34,7 +34,7 @@ The `Open a pull request` page now opens.  Enter any additional details about yo
 
 ## Autosync
 
-Once the pull request has been merged the `Trestle-bot rules-transform and autosync` GitHub action will be triggered. We will now validate that action was successful.
+Once the pull request has been merged the `complyscribe rules-transform and autosync` GitHub action will be triggered. We will now validate that action was successful.
 
 1. Navigate to the `Actions` tab of your GitHub repository.
 2. The top entry in the list of workflow runs should be titled `Merge pull request #<your PR number> from <your repo/your branch>`.  This action should be either running or have just successfully completed.
@@ -53,5 +53,5 @@ Once the pull request has been merged the `Trestle-bot rules-transform and autos
 You will also notice the `"last-modified"` timestamp has been updated.
 
 
-Congrats!  You've successfully authored a change by modifying a Markdown file and letting trestle-bot sync those changes back to the OSCAL content.
+Congrats!  You've successfully authored a change by modifying a Markdown file and letting complyscribe sync those changes back to the OSCAL content.
 

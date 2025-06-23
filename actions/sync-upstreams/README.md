@@ -1,4 +1,4 @@
-# Trestle Bot Sync Upstreams Action
+# ComplyScribe Sync Upstreams Action
 
 ## Basic Configuration
 
@@ -10,9 +10,9 @@ name: Example Workflow
 
     steps:
       - uses: actions/checkout@v3
-      - name: Run trestlebot
-        id: trestlebot
-        uses: RedHatProductSecurity/trestle-bot/actions/sync-upstreams@main
+      - name: Run complyscribe 
+        id: complyscribe 
+        uses: RedHatProductSecurity/complyscribe/actions/sync-upstreams@main
         with:
           sources: https://github.com/myorg/myprofiles@main
 ```
@@ -38,7 +38,7 @@ name: Example Workflow
 | commit_author_name | Name used for the commit author. Defaults to the username of whoever triggered this workflow run. | ${{ github.actor }} | False |
 | commit_author_email | Email address used for the commit author. | ${{ github.actor }}@users.noreply.github.com | False |
 | debug | Enable debug logging messages. | false | False |
-| config | Path to trestlebot configuration file. | .trestlebot/config.yml | False |
+| config | Path to complyscribe configuration file. | .complyscribe/config.yml | False |
 
 <!-- END_ACTION_INPUTS -->
 
@@ -66,9 +66,9 @@ Below are the main use-cases/workflows available:
 ```yaml
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/sync-upstreams@main
+    - name: Run copmlyscribe 
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/sync-upstreams@main
       with:
         sources: https://github.com/myorg/myprofiles@main
         branch: "another-branch"
@@ -79,9 +79,9 @@ Below are the main use-cases/workflows available:
 ```yaml
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/sync-upstreams@main
+    - name: Run complyscribe 
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/sync-upstreams@main
       with:
         sources: https://github.com/myorg/myprofiles@main
         branch: "autoupdate-${{ github.run_id }}"
@@ -94,9 +94,9 @@ Below are the main use-cases/workflows available:
 ```yaml
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/sync-upstreams@main
+    - name: Run complyscribe 
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/sync-upstreams@main
       with:
         sources: |
           https://github.com/myorg/myprofiles@main
@@ -110,9 +110,9 @@ Below are the main use-cases/workflows available:
 ```yaml
   steps:
     - uses: actions/checkout@v3
-    - name: Run trestlebot
-      id: trestlebot
-      uses: RedHatProductSecurity/trestle-bot/actions/sync-upstreams@main
+    - name: Run complyscribe 
+      id: complyscribe 
+      uses: RedHatProductSecurity/complyscribe/actions/sync-upstreams@main
       with:
         sources: |
           https://github.com/myorg/myprofiles@main

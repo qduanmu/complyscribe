@@ -1,6 +1,6 @@
-# The trestlebot command line sync-cac-content Tutorial
+# The complyscribe command line sync-cac-content Tutorial
 
-This tutorial provides how to use `trestlebot sync-cac-content` transform [Cac content](https://github.com/ComplianceAsCode/content) to OSCAL models.
+This tutorial provides how to use `complyscribe sync-cac-content` transform [Cac content](https://github.com/ComplianceAsCode/content) to OSCAL models.
 This command has two sub-commands `component-definition` and `profile`
 
 ## component-definition
@@ -17,14 +17,14 @@ The CLI performs the following transformations:
 
 ### 1. Prerequisites
 
-- Initialize the [trestlebot workspace](../tutorials/github.md#3-initialize-trestlebot-workspace).
+- Initialize the [complyscribe workspace](../tutorials/github.md#3-initialize-complyscribe-workspace).
 
 - Pull the [CacContent repository](https://github.com/ComplianceAsCode/content).
 
 ### 2. Run the CLI sync-cac-content component-definition
 ```shell
-poetry run trestlebot sync-cac-content component-definition \
-  --repo-path $trestlebot_workspace_directory \
+poetry run complyscribe sync-cac-content component-definition \
+  --repo-path $complyscribe_workspace_directory \
   --branch main \
   --cac-content-root ~/content \
   --cac-profile $high-rev-4 \
@@ -37,10 +37,10 @@ poetry run trestlebot sync-cac-content component-definition \
 ```
 
 For more details about these options and additional flags, you can use the `--help` flag:
-`poetry run trestlebot sync-cac-content component-definition --help`
+`poetry run complyscribe sync-cac-content component-definition --help`
 This will display a full list of available options and their descriptions.
 
-After running the CLI with the right options, you would successfully generate an OSCAL Component Definition under $trestlebot_workplace_directory/component-definitions/$product_name/$OSCAL-profile-name.
+After running the CLI with the right options, you would successfully generate an OSCAL Component Definition under $complyscribe_workplace_directory/component-definitions/$product_name/$OSCAL-profile-name.
 
 ## profile
 
@@ -48,14 +48,14 @@ This command is to generate OSCAL Profile according to content policy
 
 ### 1. Prerequisites
 
-- Initialize the [trestlebot workspace](../tutorials/github.md#3-initialize-trestlebot-workspace) if you do not have one.
+- Initialize the [complyscribe workspace](../tutorials/github.md#3-initialize-complyscribe-workspace) if you do not have one.
 
 - Pull the [CacContent repository](https://github.com/ComplianceAsCode/content).
 
 ### 2. Run the CLI sync-cac-content profile
 ```shell
-poetry run trestlebot sync-cac-content profile \ 
---repo-path ~/trestlebot-workspace \
+poetry run complyscribe sync-cac-content profile \ 
+--repo-path ~/complyscribe-workspace \
 --dry-run \
 --cac-content-root ~/content \
 --product ocp4 \ 
@@ -67,7 +67,7 @@ poetry run trestlebot sync-cac-content profile \
 ```
 
 For more details about these options and additional flags, you can use the `--help` flag:
-`poetry run trestlebot sync-cac-content profile --help`
+`poetry run complyscribe sync-cac-content profile --help`
 This will display a full list of available options and their descriptions.
 
-After running the CLI with the right options, you would successfully generate an OSCAL Profile under $trestlebot_workplace_directory/profiles.
+After running the CLI with the right options, you would successfully generate an OSCAL Profile under $complyscribe_workplace_directory/profiles.

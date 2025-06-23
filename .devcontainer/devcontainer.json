@@ -1,5 +1,5 @@
 {
-	"name": "TrestleBot Dev Environment ",
+	"name": "ComplyScribe Dev Environment ",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": ".."
@@ -8,7 +8,7 @@
 		"vscode": {
 			"settings": {
 				"python.linting.enabled": true,
-				"python.defaultInterpreterPath": "/home/trestlebot/trestle-bot/.venv/bin/python3"
+				"python.defaultInterpreterPath": "/home/complyscribe/complyscribe/.venv/bin/python3"
 			},
 			"extensions": [
 				"ms-python.python",
@@ -20,9 +20,9 @@
 		}
 	},
 	"updateRemoteUserUID": true,
-	"containerUser": "trestlebot",
+	"containerUser": "complyscribe",
 	"containerEnv": {
-		"HOME": "/home/trestlebot",
+		"HOME": "/home/complyscribe",
 		"PIP_NO_CACHE_DIR": "off",
 		"PIP_DISABLE_PIP_VERSION_CHECK": "on",
 		"PIP_DEFAULT_TIMEOUT": "100",

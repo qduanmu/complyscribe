@@ -135,7 +135,7 @@ class ParamInfo:
         self._id = param_id
         self._description = description
         self._value = ""
-        self._options: Dict[str, str] = dict()
+        self._options: Dict[str, str] = {}
 
     @property
     def id(self) -> str:
@@ -174,7 +174,7 @@ class RuleInfo:
         self._id = rule_id
         self._description = ""
         self._rule_dir = rule_dir
-        self._parameters: List[ParamInfo] = list()
+        self._parameters: List[ParamInfo] = []
 
     @property
     def id(self) -> str:
@@ -214,12 +214,12 @@ class RulesTransformer:
         self.product = product
 
         benchmark_root = get_benchmark_root(root, self.product)
-        self.rules_dirs_for_product: Dict[str, str] = dict()
+        self.rules_dirs_for_product: Dict[str, str] = {}
         for dir_path in find_rule_dirs_in_paths([benchmark_root]):
             rule_id = get_rule_dir_id(dir_path)
             self.rules_dirs_for_product[rule_id] = dir_path
 
-        self._rules_by_id: Dict[str, RuleInfo] = dict()
+        self._rules_by_id: Dict[str, RuleInfo] = {}
         self.profile_id = os.path.basename(profile).split(".profile")[0]
         self.profile_params = get_profile_params(root, product, self.profile_id)
 
@@ -246,7 +246,7 @@ class RulesTransformer:
             rules: A list of rule ids.
         Notes: This attempt to load all rules and will raise an error if any fail.
         """
-        rule_errors: List[str] = list()
+        rule_errors: List[str] = []
         for rule_id in rules:
             error = self._add_rule(rule_id)
             if error:
@@ -295,6 +295,9 @@ class RulesTransformer:
         """
         product_yml_path = product_yaml_path(self.root, self.product)
         product_yaml = load_product_yaml(product_yml_path)
+        product_yaml.read_properties_from_directory(
+            os.path.join(self.root, "product_properties")
+        )
         rule_file = get_rule_dir_yaml(rule_obj.rule_dir)
         rule_yaml = open_and_macro_expand_from_dir(
             rule_file, self.root, substitutions_dict=product_yaml._data_as_dict
@@ -323,7 +326,7 @@ class RulesTransformer:
 
     def _get_rule_properties(self, ruleset: str, rule_obj: RuleInfo) -> List[Property]:
         """Get a set of rule properties for a rule object."""
-        rule_properties: List[Property] = list()
+        rule_properties: List[Property] = []
         # Add rule properties for the ruleset
         rule_properties.append(add_prop(RULE_ID, rule_obj.id, ruleset))
         rule_properties.append(
@@ -345,7 +348,7 @@ class RulesTransformer:
 
     def transform(self, rule_objs: List[RuleInfo]) -> List[Property]:
         """Get the rules properties for a set of rule ids."""
-        rule_properties: List[Property] = list()
+        rule_properties: List[Property] = []
 
         start_val = -1
         for i, rule_obj in enumerate(rule_objs):

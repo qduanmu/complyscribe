@@ -12,7 +12,7 @@
 echo "Starting Git Commit Squasher Script..."
 
 # Check for a clean working directory
-if [[ -n $(git status --porcelain) ]]; then
+if [[ -n $(git status --porcelain --untracked-files=no) ]]; then
   echo "Error: Your working directory is not clean."
   echo "Please commit or stash your changes before attempting to squash commits."
   exit 1

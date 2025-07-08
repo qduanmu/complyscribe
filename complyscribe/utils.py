@@ -5,12 +5,18 @@
 import os
 import pathlib
 import textwrap
-from typing import Any, List
+from typing import Any, List, Tuple
 
 from ruamel.yaml import YAML, CommentedMap, CommentToken
 from ruamel.yaml.scalarstring import LiteralScalarString
 from ssg.controls import ControlsManager
 from ssg.products import load_product_yaml, product_yaml_path
+from trestle.common.const import MODEL_TYPE_PROFILE
+from trestle.common.model_utils import ModelUtils
+from trestle.core.profile_resolver import ProfileResolver
+from trestle.oscal.profile import Profile
+
+from complyscribe.tasks.authored.profile import CatalogControlResolver
 
 
 def populate_if_dict_field_not_exist(
@@ -114,3 +120,44 @@ def to_literal_scalar_string(s: str) -> LiteralScalarString:
     Convert a string to a literal scalar string.
     """
     return LiteralScalarString(textwrap.dedent(s))
+
+
+def get_oscal_profiles(
+    trestle_root: pathlib.Path, product: str, cac_policy_id: str
+) -> List[Tuple[Profile, pathlib.Path]]:
+    """
+    Get OSCAL profiles information according to product name
+     and CaC policy id.
+    """
+    res = []
+    dir_name = ModelUtils.model_type_to_model_dir(MODEL_TYPE_PROFILE)
+    for d in pathlib.Path(trestle_root.joinpath(dir_name)).iterdir():
+        if f"{product}-{cac_policy_id}" in d.name:
+            res.append(
+                ModelUtils.load_model_for_type(trestle_root, MODEL_TYPE_PROFILE, d.name)
+            )
+
+    return res
+
+
+def load_all_controls(
+    profiles: List[Tuple[Profile, pathlib.Path]],
+    trestle_root: pathlib.Path,
+) -> CatalogControlResolver:
+    """
+    Load all controls from OSCAL profiles.
+    return loaded CatalogControlResolver
+    """
+    catalog_helper = CatalogControlResolver()
+    for _, profile_path in profiles:
+        profile_resolver = ProfileResolver()
+        resolved_catalog = profile_resolver.get_resolved_profile_catalog(
+            trestle_root,
+            os.path.join(profile_path, "profile.json"),
+            block_params=False,
+            params_format="[.]",
+            show_value_warnings=True,
+        )
+        catalog_helper.load(resolved_catalog)
+
+    return catalog_helper

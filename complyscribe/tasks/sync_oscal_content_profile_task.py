@@ -1,18 +1,16 @@
 import logging
 import os
 import pathlib
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Dict, List, Set
 
 from ssg.controls import ControlsManager, Policy
-from trestle.common.const import MODEL_TYPE_PROFILE
-from trestle.common.model_utils import ModelUtils
-from trestle.core.profile_resolver import ProfileResolver
-from trestle.oscal.profile import Profile
 
 from complyscribe.const import SUCCESS_EXIT_CODE
 from complyscribe.tasks.authored.profile import CatalogControlResolver
 from complyscribe.tasks.base_task import TaskBase
 from complyscribe.utils import (
+    get_oscal_profiles,
+    load_all_controls,
     load_controls_manager,
     read_cac_yaml_ordered,
     write_cac_yaml_ordered,
@@ -43,24 +41,6 @@ class SyncOscalProfileTask(TaskBase):
         self.cac_to_oscal_map: Dict[str, str] = dict()
         self.level_with_ancestors: Dict[str, List[str]] = dict()
 
-    def get_oscal_profiles(
-        self, trestle_root: pathlib.Path
-    ) -> List[Tuple[Profile, pathlib.Path]]:
-        """
-        Get OSCAL profiles information according to policy id.
-        """
-        res = []
-        dir_name = ModelUtils.model_type_to_model_dir(MODEL_TYPE_PROFILE)
-        for d in pathlib.Path(trestle_root.joinpath(dir_name)).iterdir():
-            if f"{self.product}-{self.cac_policy_id}" in d.name:
-                res.append(
-                    ModelUtils.load_model_for_type(
-                        trestle_root, MODEL_TYPE_PROFILE, d.name
-                    )
-                )
-
-        return res
-
     def get_cac_id_control_map(self, data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
         """
         Get cac control-id:control-object map from cac control file data
@@ -84,21 +64,6 @@ class SyncOscalProfileTask(TaskBase):
                 cac_control_id_to_oscal_control_id_map[oscal_control_id] = control.id
 
         return cac_control_id_to_oscal_control_id_map
-
-    def load_all_controls(self, profiles: List[Tuple[Profile, pathlib.Path]]) -> None:
-        """
-        Load all controls from OSCAL profiles
-        """
-        for _, profile_path in profiles:
-            profile_resolver = ProfileResolver()
-            resolved_catalog = profile_resolver.get_resolved_profile_catalog(
-                pathlib.Path(self.working_dir),
-                os.path.join(profile_path, "profile.json"),
-                block_params=False,
-                params_format="[.]",
-                show_value_warnings=True,
-            )
-            self.catalog_helper.load(resolved_catalog)
 
     def get_level_with_ancestors(
         self, control_mgr: ControlsManager
@@ -178,10 +143,14 @@ class SyncOscalProfileTask(TaskBase):
         self.level_with_ancestors = self.get_level_with_ancestors(control_mgr)
         logger.info(f"level with ancestors: {self.level_with_ancestors}")
 
-        # get all oscal profiles according to policy-id
-        profiles = self.get_oscal_profiles(pathlib.Path(self.working_dir))
-        # load all controls
-        self.load_all_controls(profiles)
+        # use CatalogControlResolver to get control id map between cac and OSCAL
+        profiles = get_oscal_profiles(
+            pathlib.Path(self.working_dir), self.product, self.cac_policy_id
+        )
+        self.catalog_helper = load_all_controls(
+            profiles, pathlib.Path(self.working_dir)
+        )
+
         # get cac_control_id to oscal_control_id map
         self.cac_to_oscal_map = self.get_cac_to_oscal_map(control_mgr)
 

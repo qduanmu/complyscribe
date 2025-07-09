@@ -26,7 +26,6 @@ from trestle.common.const import (
 )
 from trestle.common.model_utils import ModelUtils
 from trestle.core.models.file_content_type import FileContentType
-from trestle.core.profile_resolver import ProfileResolver
 from trestle.oscal.common import Property
 from trestle.oscal.component import (
     ComponentDefinition,
@@ -42,6 +41,8 @@ from complyscribe.tasks.base_task import TaskBase
 from complyscribe.utils import (
     get_comments_from_yaml_data,
     get_field_comment,
+    get_oscal_profiles,
+    load_all_controls,
     populate_if_dict_field_not_exist,
     read_cac_yaml_ordered,
     to_literal_scalar_string,
@@ -498,6 +499,15 @@ class SyncOscalCdTask(TaskBase):
 
         # sync control file
         for policy_id in policy_ids:
+            # use CatalogControlResolver to get control id map between cac and OSCAL
+            oscal_profiles = get_oscal_profiles(
+                pathlib.Path(self.working_dir),
+                self.product,
+                policy_id,
+            )
+            self.catalog_helper = load_all_controls(
+                oscal_profiles, pathlib.Path(self.working_dir)
+            )
             control_file_path = pathlib.Path(
                 os.path.join(self.control_dir, f"{policy_id}.yml")
             )
@@ -557,18 +567,6 @@ class SyncOscalCdTask(TaskBase):
 
             logger.debug(f"Found cac profile id: {profile_id}")
             self.make_implemented_requirements_as_dict(control_implementation)
-            # use CatalogControlResolver to get control id map between cac and OSCAL
-            catalog_helper = CatalogControlResolver()
-            profile_resolver = ProfileResolver()
-            resolved_catalog = profile_resolver.get_resolved_profile_catalog(
-                pathlib.Path(self.working_dir),
-                control_implementation.source,
-                block_params=False,
-                params_format="[.]",
-                show_value_warnings=True,
-            )
-            catalog_helper.load(resolved_catalog)
-            self.catalog_helper = catalog_helper
 
             # check parameters diff
             profiles = get_profiles_from_products(self.cac_content_root, [self.product])

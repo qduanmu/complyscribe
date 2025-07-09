@@ -58,6 +58,11 @@ def test_sync_oscal_cd_to_cac_control(
         test_product,
         model_name=os.path.join(test_product, test_profile_name),
     )
+    # rename profile dir name
+    os.rename(
+        os.path.join(trestle_repo_path, "profiles", test_profile_name),
+        os.path.join(trestle_repo_path, "profiles", f"{test_product}-{test_policy_id}"),
+    )
     tmp_content_dir = tmp_init_dir
     setup_for_cac_content_dir(tmp_content_dir, test_content_dir)
 
@@ -172,6 +177,11 @@ def test_sync_oscal_cd_statements(
         test_product,
         test_product,
         model_name=os.path.join(test_product, test_profile_name),
+    )
+    # rename profile dir name
+    os.rename(
+        os.path.join(trestle_repo_path, "profiles", test_profile_name),
+        os.path.join(trestle_repo_path, "profiles", f"{test_product}-{test_policy_id}"),
     )
     tmp_content_dir = tmp_init_dir
     setup_for_cac_content_dir(tmp_content_dir, test_content_dir)

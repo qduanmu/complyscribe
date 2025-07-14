@@ -65,4 +65,4 @@ COMPLYSCRIBE_KEEP_FILE = ".keep"
 FRAMEWORK_SHORT_NAME = "Framework_Short_Name"
 
 # rule yml directory
-SAME_GUIDE_DIRECTORY = "../../linux_os/guide"
+COMON_GUIDE_DIRECTORY = "../../linux_os/guide"

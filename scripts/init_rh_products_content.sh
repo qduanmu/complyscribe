@@ -51,9 +51,8 @@ for product in "${RH_PRODUCTS[@]}"; do
             map=${line//\'/\"}
             policy_id=$(echo "$map" | jq -r '.policy_id')
             profile=$(echo "$map" | jq -r '.profile_name')
-            levels_a=$(echo "$map" | jq -r '.levels[]')
-            IFS=' ' read -r -a levels <<< "$levels_a"
-            for level in "${levels[@]}"; do
+            echo "$map" | jq -r '.levels[]' > levels
+            while IFS= read -r level; do
                 oscal_profile=$product-$policy_id-$level
                 if [[ "$product" == *'rhel'* ]] ; then
                     type="software"
@@ -67,7 +66,7 @@ for product in "${RH_PRODUCTS[@]}"; do
                 poetry run complyscribe sync-cac-content component-definition --repo-path "$oscal_repo_path" --committer-email "openscap-ci@gmail.com" --committer-name "openscap-ci" --branch "$repo_branch" --cac-content-root "$cac_repo_path" --product "$product" --component-definition-type "$type" --cac-profile "$profile" --oscal-profile "$oscal_profile" --dry-run
                 type="validation"
                 poetry run complyscribe sync-cac-content component-definition --repo-path "$oscal_repo_path" --committer-email "openscap-ci@gmail.com" --committer-name "openscap-ci" --branch "$repo_branch" --cac-content-root "$cac_repo_path" --product "$product" --component-definition-type "$type" --cac-profile "$profile" --oscal-profile "$oscal_profile" --dry-run
-            done
+            done < levels
         done < "$product""_map.json"
     fi    
 done

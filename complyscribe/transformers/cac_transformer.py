@@ -5,7 +5,7 @@
 
 import logging
 import os
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from ssg.products import load_product_yaml, product_yaml_path
 from ssg.profiles import get_profiles_from_products
@@ -110,16 +110,17 @@ def add_prop(name: str, value: str, remarks: Optional[str] = None) -> Property:
     return prop
 
 
-def get_benchmark_root(root: str, product: str) -> List[Any]:
+def get_benchmark_root(root: str, product: str) -> Set[Any]:
     """Get the benchmark root."""
     product_yml_path = product_yaml_path(root, product)
     product_yaml = load_product_yaml(product_yml_path)
     product_dir = product_yaml.get("product_dir")
-    benchmark_root = []
-    benchmark_root.append(os.path.join(product_dir, product_yaml.get("benchmark_root")))
-    if product == "ocp4":
-        benchmark_root.append(os.path.join(product_dir, const.SAME_GUIDE_DIRECTORY))
-    return benchmark_root
+    benchmark_roots = set()
+    common_benchmark = os.path.join(product_dir, const.COMON_GUIDE_DIRECTORY)
+    product_benchmark = os.path.join(product_dir, product_yaml.get("benchmark_root"))
+    benchmark_roots.add(common_benchmark)
+    benchmark_roots.add(product_benchmark)
+    return benchmark_roots
 
 
 def get_profile_params(root: str, product: str, profile_id: str) -> Dict[str, Any]:
@@ -218,9 +219,9 @@ class RulesTransformer:
         self.root = root
         self.product = product
 
-        benchmark_root = get_benchmark_root(root, self.product)
+        benchmark_roots = get_benchmark_root(root, self.product)
         self.rules_dirs_for_product: Dict[str, str] = {}
-        for item in benchmark_root:
+        for item in benchmark_roots:
             for dir_path in find_rule_dirs_in_paths([item]):
                 rule_id = get_rule_dir_id(dir_path)
                 self.rules_dirs_for_product[rule_id] = dir_path

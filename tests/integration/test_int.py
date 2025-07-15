@@ -2,7 +2,7 @@
 # Copyright (c) 2025 Red Hat, Inc.
 
 """
-Integration tests for validating that complyscribe output is consumable by complytime
+Integration tests for validating that complyscribe output is consumable by complyctl
 """
 import json
 import logging
@@ -28,7 +28,7 @@ logger.setLevel(logging.INFO)
 
 test_content_dir = TEST_DATA_DIR / "content_dir"
 
-# Ask complytime to use home directory instead of hardcoded system paths
+# Ask complyctl to use home directory instead of hardcoded system paths
 os.putenv("COMPLYTIME_DEV_MODE", "1")
 
 
@@ -37,7 +37,7 @@ os.putenv("COMPLYTIME_DEV_MODE", "1")
 def test_complytime_setup() -> None:
     """Ensure that the complytime integration test setup works"""
     result = subprocess.run(
-        ["complytime", "list", "--plain"],
+        ["complyctl", "list", "--plain"],
         capture_output=True,
     )
     assert result.returncode == 0
@@ -142,7 +142,7 @@ def test_full_sync(tmp_repo: Tuple[str, Repo], complytime_home: pathlib.Path) ->
     )
     new_prof_json_text = new_prof_json_text.replace(
         '"param_id"', '"param-id"'
-    )  # TODO compliance-trestle uses param_id and param-id interchangably, complytime requires param-id
+    )  # TODO compliance-trestle uses param_id and param-id interchangably, complyctl requires param-id
     new_prof_json = json.loads(new_prof_json_text)
 
     new_cd_json_text = component_definition.read_text()
@@ -167,7 +167,7 @@ def test_full_sync(tmp_repo: Tuple[str, Repo], complytime_home: pathlib.Path) ->
         json.dump(new_cd_json, file)
 
     result = subprocess.run(
-        ["complytime", "list", "--plain"],
+        ["complyctl", "list", "--plain"],
         capture_output=True,
     )
     assert result.returncode == 0
@@ -303,7 +303,7 @@ def test_compdef_type_software_sync(
         json.dump(new_cd_json, file)
 
     result = subprocess.run(
-        ["complytime", "list", "--plain"],
+        ["complyctl", "list", "--plain"],
         capture_output=True,
     )
     assert result.returncode == 0
@@ -439,7 +439,7 @@ def test_compdef_type_validation_sync(
         json.dump(new_cd_json, file)
 
     result = subprocess.run(
-        ["complytime", "list", "--plain"],
+        ["complyctl", "list", "--plain"],
         capture_output=True,
     )
     assert result.returncode == 0

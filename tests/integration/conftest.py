@@ -24,7 +24,7 @@ _TEST_PREFIX = "complyscribe_tests"
 T = TypeVar("T")
 YieldFixture = Generator[T, None, None]
 
-# Ask complytime to use home directory instead of hardcoded system paths
+# Ask complyctl to use home directory instead of hardcoded system paths
 os.putenv("COMPLYTIME_DEV_MODE", "1")
 
 
@@ -47,7 +47,7 @@ def is_complytime_installed(install_dir: Path) -> bool:
 def is_complytime_cached(download_dir: Path) -> bool:
     return bool(
         glob.glob(
-            str((download_dir / "releases/*/complytime_linux_x86_64.tar.gz").resolve())
+            str((download_dir / "releases/*/complyctl_linux_x86_64.tar.gz").resolve())
         )
     )
 
@@ -80,7 +80,7 @@ def complytime_home() -> YieldFixture[Path]:
             result = subprocess.run(
                 [
                     scripts_dir / "get-github-release.py",
-                    "https://github.com/complytime/complytime",
+                    "https://github.com/complytime/complyctl",
                 ],
                 cwd=complytime_cache_dir,
                 capture_output=True,
@@ -97,7 +97,7 @@ def complytime_home() -> YieldFixture[Path]:
                 "find",
                 f"{complytime_cache_dir}/releases",
                 "-name",
-                "complytime_linux_x86_64.tar.gz",
+                "complyctl_linux_x86_64.tar.gz",
                 "-exec",
                 "tar",
                 "-xvf",
@@ -114,7 +114,7 @@ def complytime_home() -> YieldFixture[Path]:
                 f"Unable to extract ComplyTime for integration test!\n{result.stdout}\n{result.stderr}"
             )
 
-        # Install complytime
+        # Install complyctl
         install_complytime(complytime_home)
 
         # Create dummy base files
@@ -170,7 +170,7 @@ def install_complytime(complytime_home: Path) -> None:
     Path(complytime_home / ".local/share/complytime/controls/").mkdir(
         parents=True, exist_ok=True
     )
-    shutil.move(complytime_home / "complytime", complytime_home / "bin/complytime")
+    shutil.move(complytime_home / "complyctl", complytime_home / "bin/complyctl")
     shutil.move(
         complytime_home / "openscap-plugin",
         complytime_home / ".local/share/complytime/plugins/openscap-plugin",

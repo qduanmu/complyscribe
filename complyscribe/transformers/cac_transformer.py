@@ -5,7 +5,7 @@
 
 import logging
 import os
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from ssg.products import load_product_yaml, product_yaml_path
 from ssg.profiles import get_profiles_from_products
@@ -27,6 +27,8 @@ from trestle.tasks.csv_to_oscal_cd import (
     RULE_ID,
     _RuleSetIdMgr,
 )
+
+from complyscribe import const
 
 
 logger = logging.getLogger(__name__)
@@ -108,13 +110,17 @@ def add_prop(name: str, value: str, remarks: Optional[str] = None) -> Property:
     return prop
 
 
-def get_benchmark_root(root: str, product: str) -> str:
+def get_benchmark_root(root: str, product: str) -> Set[Any]:
     """Get the benchmark root."""
     product_yml_path = product_yaml_path(root, product)
     product_yaml = load_product_yaml(product_yml_path)
     product_dir = product_yaml.get("product_dir")
-    benchmark_root = os.path.join(product_dir, product_yaml.get("benchmark_root"))
-    return benchmark_root
+    benchmark_roots = set()
+    common_benchmark = os.path.join(product_dir, const.COMON_GUIDE_DIRECTORY)
+    product_benchmark = os.path.join(product_dir, product_yaml.get("benchmark_root"))
+    benchmark_roots.add(common_benchmark)
+    benchmark_roots.add(product_benchmark)
+    return benchmark_roots
 
 
 def get_profile_params(root: str, product: str, profile_id: str) -> Dict[str, Any]:
@@ -213,11 +219,12 @@ class RulesTransformer:
         self.root = root
         self.product = product
 
-        benchmark_root = get_benchmark_root(root, self.product)
+        benchmark_roots = get_benchmark_root(root, self.product)
         self.rules_dirs_for_product: Dict[str, str] = {}
-        for dir_path in find_rule_dirs_in_paths([benchmark_root]):
-            rule_id = get_rule_dir_id(dir_path)
-            self.rules_dirs_for_product[rule_id] = dir_path
+        for item in benchmark_roots:
+            for dir_path in find_rule_dirs_in_paths([item]):
+                rule_id = get_rule_dir_id(dir_path)
+                self.rules_dirs_for_product[rule_id] = dir_path
 
         self._rules_by_id: Dict[str, RuleInfo] = {}
         self.profile_id = os.path.basename(profile).split(".profile")[0]

@@ -96,6 +96,9 @@ def test_create_compdef_cmd(tmp_repo: Tuple[str, Repo]) -> None:
             "--branch",
             "test",
         ],
+        # This simulates the user pressing Enter.
+        # If missed, the prompt will block, causing test abort.
+        input="\n",
     )
     assert result.exit_code == 0
 

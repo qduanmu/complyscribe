@@ -27,7 +27,11 @@ def test_init_not_git_repo(tmp_init_dir: str) -> None:
     """Init should fail if repo dir is not a Git repo."""
     runner = CliRunner()
     result = runner.invoke(
-        init_cmd, ["--repo-path", tmp_init_dir, "--markdown-dir", "markdown"]
+        init_cmd,
+        ["--repo-path", tmp_init_dir, "--markdown-dir", "markdown"],
+        # This simulates the user pressing Enter.
+        # If missed, the prompt will block, causing test abort.
+        input="\n\n\n\n",
     )
     assert result.exit_code == 1
     assert "not a Git repository" in result.output
@@ -47,7 +51,11 @@ def test_init_existing_complyscribe_dir(tmp_init_dir: str) -> None:
 
     runner = CliRunner()
     result = runner.invoke(
-        init_cmd, ["--repo-path", tmp_init_dir, "--markdown-dir", "markdown"]
+        init_cmd,
+        ["--repo-path", tmp_init_dir, "--markdown-dir", "markdown"],
+        # This simulates the user pressing Enter.
+        # If missed, the prompt will block, causing test abort.
+        input="\n\n\n\n",
     )
 
     assert result.exit_code == 1
@@ -61,7 +69,11 @@ def test_init_creates_config_file(tmp_init_dir: str) -> None:
 
     runner = CliRunner()
     result = runner.invoke(
-        init_cmd, ["--repo-path", tmp_init_dir, "--markdown-dir", "markdown"]
+        init_cmd,
+        ["--repo-path", tmp_init_dir, "--markdown-dir", "markdown"],
+        # This simulates the user pressing Enter.
+        # If missed, the prompt will block, causing test abort.
+        input="\n\n\n\n",
     )
     assert result.exit_code == 0
     assert "Successfully initialized complyscribe" in result.output
@@ -85,7 +97,13 @@ def test_init_creates_model_dirs(tmp_init_dir: str) -> None:
     setup_for_init(tmp_dir)
 
     runner = CliRunner()
-    runner.invoke(init_cmd, ["--repo-path", tmp_init_dir, "--markdown-dir", "markdown"])
+    runner.invoke(
+        init_cmd,
+        ["--repo-path", tmp_init_dir, "--markdown-dir", "markdown"],
+        # This simulates the user pressing Enter.
+        # If missed, the prompt will block, causing test abort.
+        input="\n\n\n\n",
+    )
 
     model_dirs = [d.name for d in tmp_dir.iterdir() if not is_hidden(d)]
     model_dirs.remove("markdown")  # pop markdown dir
@@ -100,7 +118,13 @@ def test_init_creates_markdown_dirs(tmp_init_dir: str) -> None:
     setup_for_init(tmp_dir)
 
     runner = CliRunner()
-    runner.invoke(init_cmd, ["--repo-path", tmp_init_dir, "--markdown-dir", "markdown"])
+    runner.invoke(
+        init_cmd,
+        ["--repo-path", tmp_init_dir, "--markdown-dir", "markdown"],
+        # This simulates the user pressing Enter.
+        # If missed, the prompt will block, causing test abort.
+        input="\n\n\n\n",
+    )
 
     markdown_dirs = [d.name for d in markdown_dir.iterdir() if not is_hidden(d)]
     assert sorted(markdown_dirs) == sorted(MODEL_DIR_LIST)

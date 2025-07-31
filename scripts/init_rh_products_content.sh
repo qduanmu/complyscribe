@@ -22,15 +22,15 @@ if [ $# -lt 3 ]; then
     exit 1
 fi
 
-RH_PRODUCTS=(rhel8 rhel9 rhel10 ocp4)
+RH_PRODUCTS=(rhel8 rhel9 rhel10 ocp4 fedora)
 for product in "${RH_PRODUCTS[@]}"; do
     # Get the available policy_ids for a specific product
     echo "Get $product available policy_ids ......"
-    python scripts/get_product_controls.py "$product" "$cac_repo_path" > "$product""_controls"  2>&1
+    python -W ignore scripts/get_product_controls.py "$product" "$cac_repo_path" > "$product""_controls"  2>&1
     cat "$product""_controls"
     # Get the relationship of product's profile, policy_id and security level
     echo "Get $product profile, policy_id and level mapping ......"
-    python scripts/get_mappings_profile_control_levels.py "$product" "$cac_repo_path" > "$product""_map.json"  2>&1
+    python -W ignore scripts/get_mappings_profile_control_levels.py "$product" "$cac_repo_path" > "$product""_map.json"  2>&1
     cat "$product""_map.json"
     file="$product""_controls"
     if [ -f "$file" ] && [ -s "$file" ]; then
@@ -54,7 +54,7 @@ for product in "${RH_PRODUCTS[@]}"; do
             echo "$map" | jq -r '.levels[]' > levels
             while IFS= read -r level; do
                 oscal_profile=$product-$policy_id-$level
-                if [[ "$product" == *'rhel'* ]] ; then
+                if [[ "$product" != *'ocp4'* ]] ; then
                     type="software"
                 else
                     type="service"

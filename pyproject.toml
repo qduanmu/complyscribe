@@ -23,7 +23,7 @@ complyscribe = "complyscribe.cli.root:root_cmd"
 
 [tool.poetry.dependencies]
 python = '^3.9.2'
-gitpython = "^3.1.41"
+gitpython = "^3.1.45"
 compliance-trestle = "^3.9.1"
 github3-py = "^4.0.1"
 python-gitlab = "^4.2.0"

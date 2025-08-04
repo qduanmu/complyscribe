@@ -49,12 +49,14 @@ class ToRulesYAMLTransformer(ToRulesTransformer):
             # Collecting validation errors for each field to
             # get a comprehensive list of errors per YAML file.
             try:
-                profile_info_instance = Profile.parse_obj(rule_info_data[const.PROFILE])
+                profile_info_instance = Profile.model_validate(
+                    rule_info_data[const.PROFILE]
+                )
             except ValidationError as e:
                 validation_errors.append(e)
 
             try:
-                component_info_instance = ComponentInfo.parse_obj(
+                component_info_instance = ComponentInfo.model_validate(
                     yaml_data[const.COMPONENT_INFO_TAG]
                 )
             except ValidationError as e:
@@ -63,7 +65,7 @@ class ToRulesYAMLTransformer(ToRulesTransformer):
             parameter_instance: Optional[Parameter] = None
             if const.PARAMETER in rule_info_data:
                 try:
-                    parameter_instance = Parameter.parse_obj(
+                    parameter_instance = Parameter.model_validate(
                         rule_info_data[const.PARAMETER]
                     )
                 except ValidationError as e:
@@ -72,7 +74,7 @@ class ToRulesYAMLTransformer(ToRulesTransformer):
             check_instance: Optional[Check] = None
             if const.CHECK in rule_info_data:
                 try:
-                    check_instance = Check.parse_obj(rule_info_data[const.CHECK])
+                    check_instance = Check.model_validate(rule_info_data[const.CHECK])
                 except ValidationError as e:
                     validation_errors.append(e)
 
@@ -136,19 +138,21 @@ class FromRulesYAMLTransformer(FromRulesTransformer):
             const.RULE_INFO_TAG: {
                 const.NAME: rule.name,
                 const.DESCRIPTION: rule.description,
-                const.PROFILE: rule.profile.dict(by_alias=True, exclude_unset=True),
+                const.PROFILE: rule.profile.model_dump(
+                    by_alias=True, exclude_unset=True
+                ),
             },
-            const.COMPONENT_INFO_TAG: rule.component.dict(
+            const.COMPONENT_INFO_TAG: rule.component.model_dump(
                 by_alias=True, exclude_unset=True
             ),
         }
 
         if rule.parameter is not None:
-            rule_info[const.RULE_INFO_TAG][const.PARAMETER] = rule.parameter.dict(
+            rule_info[const.RULE_INFO_TAG][const.PARAMETER] = rule.parameter.model_dump(
                 by_alias=True, exclude_unset=True
             )
         if rule.check is not None:
-            rule_info[const.RULE_INFO_TAG][const.CHECK] = rule.check.dict(
+            rule_info[const.RULE_INFO_TAG][const.CHECK] = rule.check.model_dump(
                 by_alias=True, exclude_unset=True
             )
         return rule_info

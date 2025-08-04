@@ -81,6 +81,10 @@ addopts = """
 testpaths = [
     'tests',
 ]
+markers = [
+    "integration: mark a test as an integration test.",
+]
+
 
 [tool.mypy]
 

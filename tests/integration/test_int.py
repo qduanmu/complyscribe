@@ -12,7 +12,7 @@ import subprocess
 from typing import Tuple
 
 import pytest
-from click import BaseCommand
+from click import Command
 from click.testing import CliRunner, Result
 from git import Repo
 
@@ -58,7 +58,7 @@ def test_full_sync(tmp_repo: Tuple[str, Repo], complytime_home: pathlib.Path) ->
     test_cac_control = "abcd-levels"
 
     runner = CliRunner()
-    assert isinstance(sync_cac_catalog_cmd, BaseCommand)
+    assert isinstance(sync_cac_catalog_cmd, Command)
     result: Result = runner.invoke(
         sync_cac_catalog_cmd,
         [
@@ -89,7 +89,7 @@ def test_full_sync(tmp_repo: Tuple[str, Repo], complytime_home: pathlib.Path) ->
         f"component-definitions/{test_product}/{test_prof}/component-definition.json"
     )
     test_cat = "simplified_nist_catalog"
-    assert isinstance(sync_content_to_component_definition_cmd, BaseCommand)
+    assert isinstance(sync_content_to_component_definition_cmd, Command)
     setup_for_catalog(repo_path, test_cat, "catalog")
     setup_for_profile(repo_path, test_prof, "profile")
 
@@ -190,7 +190,7 @@ def test_compdef_type_software_sync(
     test_cac_control = "abcd-levels"
 
     runner = CliRunner()
-    assert isinstance(sync_cac_catalog_cmd, BaseCommand)
+    assert isinstance(sync_cac_catalog_cmd, Command)
     result = runner.invoke(
         sync_cac_catalog_cmd,
         [
@@ -221,7 +221,7 @@ def test_compdef_type_software_sync(
         f"component-definitions/{test_product}/{test_prof}/component-definition.json"
     )
     test_cat = "simplified_nist_catalog"
-    assert isinstance(sync_content_to_component_definition_cmd, BaseCommand)
+    assert isinstance(sync_content_to_component_definition_cmd, Command)
     setup_for_catalog(repo_path, test_cat, "catalog")
     setup_for_profile(repo_path, test_prof, "profile")
 
@@ -326,7 +326,7 @@ def test_compdef_type_validation_sync(
     test_cac_control = "abcd-levels"
 
     runner = CliRunner()
-    assert isinstance(sync_cac_catalog_cmd, BaseCommand)
+    assert isinstance(sync_cac_catalog_cmd, Command)
     result = runner.invoke(
         sync_cac_catalog_cmd,
         [
@@ -357,7 +357,7 @@ def test_compdef_type_validation_sync(
         f"component-definitions/{test_product}/{test_prof}/component-definition.json"
     )
     test_cat = "simplified_nist_catalog"
-    assert isinstance(sync_content_to_component_definition_cmd, BaseCommand)
+    assert isinstance(sync_content_to_component_definition_cmd, Command)
     setup_for_catalog(repo_path, test_cat, "catalog")
     setup_for_profile(repo_path, test_prof, "profile")
 

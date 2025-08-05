@@ -5,7 +5,7 @@
 import pathlib
 from typing import Any, Generator, Tuple
 
-from click import BaseCommand
+from click import Command
 from click.testing import CliRunner
 from git import Repo
 from ssg.controls import Policy
@@ -55,7 +55,7 @@ def test_sync_catalog_create(tmp_repo: Tuple[str, Repo]) -> None:
     test_cac_control = "abcd-levels"
 
     runner = CliRunner()
-    assert isinstance(sync_cac_catalog_cmd, BaseCommand)
+    assert isinstance(sync_cac_catalog_cmd, Command)
     result = runner.invoke(
         sync_cac_catalog_cmd,
         [
@@ -102,7 +102,7 @@ def test_sync_catalog_create_real(tmp_repo: Tuple[str, Repo]) -> None:
     setup_for_catalog(repo_path, test_cat, "catalog")
 
     runner = CliRunner()
-    assert isinstance(sync_cac_catalog_cmd, BaseCommand)
+    assert isinstance(sync_cac_catalog_cmd, Command)
     ocp4_policy = "nist_ocp4"
     result = runner.invoke(
         sync_cac_catalog_cmd,
@@ -161,7 +161,7 @@ def test_sync_catalog_update(tmp_repo: Tuple[str, Repo]) -> None:
     setup_for_catalog(repo_path, test_cat, "catalog")
 
     runner = CliRunner()
-    assert isinstance(sync_cac_catalog_cmd, BaseCommand)
+    assert isinstance(sync_cac_catalog_cmd, Command)
     test_cac_control = "nist_ocp4"
     result = runner.invoke(
         sync_cac_catalog_cmd,

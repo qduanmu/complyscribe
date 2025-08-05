@@ -2461,14 +2461,14 @@ test = ["mypy", "pyaml", "pytest", "toml", "types-PyYAML", "types-toml"]
 
 [[package]]
 name = "python-gitlab"
-version = "4.13.0"
-description = "A python wrapper for the GitLab API"
+version = "6.2.0"
+description = "The python wrapper for the GitLab REST and GraphQL APIs."
 optional = false
-python-versions = ">=3.8.0"
+python-versions = ">=3.9.0"
 groups = ["main"]
 files = [
-    {file = "python_gitlab-4.13.0-py3-none-any.whl", hash = "sha256:8299a054fb571da16e1a8c1868fff01f34ac41ea1410c713a4647b3bbb2aa279"},
-    {file = "python_gitlab-4.13.0.tar.gz", hash = "sha256:576bfb0901faca0c6b2d1ff2592e02944a6ec3e086c3129fb43c2a0df56a1c67"},
+    {file = "python_gitlab-6.2.0-py3-none-any.whl", hash = "sha256:8adf2bbf1ac8a5224ee04a456d318da0d15128606711e8c8e1a2ff050968432b"},
+    {file = "python_gitlab-6.2.0.tar.gz", hash = "sha256:b88c79cea65dd2425922c829730ea95827ed7132d869b8532b90a8c7199cc1a6"},
 ]
 
 [package.dependencies]
@@ -3169,4 +3169,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.9.2"
-content-hash = "4d773ec79ae885dad310259874ae40c60df42e50c636809ee11d2fc766c3044a"
+content-hash = "52f8371ccab61c8e178925fb025db05dfe9be9d81e1e43c54f4cf1bd776121e9"

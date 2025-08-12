@@ -8,7 +8,6 @@ from typing import Any, Generator, Tuple
 from click import Command
 from click.testing import CliRunner
 from git import Repo
-from ssg.controls import Policy
 from trestle.common.const import REPLACE_ME
 from trestle.oscal.catalog import Catalog, Control
 from trestle.oscal.component import ComponentDefinition
@@ -19,6 +18,7 @@ from complyscribe.cli.commands.sync_cac_content import (
     sync_cac_content_profile_cmd,
     sync_content_to_component_definition_cmd,
 )
+from complyscribe.utils import load_cac_policy
 from tests.testutils import TEST_DATA_DIR, setup_for_catalog, setup_for_profile
 
 
@@ -80,8 +80,7 @@ def test_sync_catalog_create(tmp_repo: Tuple[str, Repo]) -> None:
     assert result.exit_code == 0, result.output
 
     # Source
-    policy = Policy(test_content_dir / "controls" / f"{test_cac_control}.yml")
-    policy.load()
+    policy = load_cac_policy(test_content_dir / "controls" / f"{test_cac_control}.yml")
 
     # Destination
     # catalog_path = repo_path.joinpath(test_catalog_path)
@@ -128,8 +127,7 @@ def test_sync_catalog_create_real(tmp_repo: Tuple[str, Repo]) -> None:
     assert result.exit_code == 0, result.output
 
     # Source
-    policy = Policy(test_content_dir / "controls/simplified_nist_ocp4.yml")
-    policy.load()
+    policy = load_cac_policy(test_content_dir / "controls/simplified_nist_ocp4.yml")
 
     # Destination
     # catalog_path = repo_path.joinpath(test_catalog_path)
@@ -292,7 +290,7 @@ def test_sync_product(tmp_repo: Tuple[str, Repo]) -> None:
     component = compdef.components[0]
     assert component.title == "rhel8"
     # Check rules component props are added
-    assert len(component.props) == 24
+    assert len(component.props) == 33
     rule_ids = [p.value for p in component.props if p.name == "Rule_Id"]
     assert sorted(rule_ids) == [
         "configure_crypto_policy",
@@ -302,6 +300,7 @@ def test_sync_product(tmp_repo: Tuple[str, Repo]) -> None:
     # Check parameters props are added
     param_ids = [p.value for p in component.props if "Parameter_Id" in p.name]
     assert sorted(list(set(param_ids))) == [
+        "var_password_pam_minlen",
         "var_sshd_set_keepalive",
         "var_system_crypto_policy",
     ]
@@ -315,16 +314,18 @@ def test_sync_product(tmp_repo: Tuple[str, Repo]) -> None:
     assert ci.props[0].value == "example"
 
     set_parameters = ci.set_parameters
-    assert len(set_parameters) == 2
+    assert len(set_parameters) == 3
     set_params_ids = []
     set_params_dict = {}
     for param in set_parameters:
         set_params_ids.append(param.param_id)
         set_params_dict.update({param.param_id: param.values})
     assert sorted(set_params_ids) == [
+        "var_password_pam_minlen",
         "var_sshd_set_keepalive",
         "var_system_crypto_policy",
     ]
+    assert set_params_dict["var_password_pam_minlen"] == ["1"]
     assert set_params_dict["var_sshd_set_keepalive"] == ["1"]
     assert set_params_dict["var_system_crypto_policy"] == ["fips"]
 
@@ -397,7 +398,7 @@ def test_sync_product_create_validation_component(tmp_repo: Tuple[str, Repo]) ->
     assert component_definition.exists()
     compdef = ComponentDefinition.oscal_read(component_definition)
     component = compdef.components[0]
-    assert len(component.props) == 30
+    assert len(component.props) == 39
     assert component.title == "openscap"
     assert component.type == "validation"
 

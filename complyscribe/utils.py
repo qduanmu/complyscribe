@@ -5,11 +5,11 @@
 import os
 import pathlib
 import textwrap
-from typing import Any, List, Tuple
+from typing import Any, List, Optional, Tuple
 
 from ruamel.yaml import YAML, CommentedMap, CommentToken
 from ruamel.yaml.scalarstring import LiteralScalarString
-from ssg.controls import ControlsManager
+from ssg.controls import ControlsManager, Policy
 from ssg.products import load_product_yaml, product_yaml_path
 from trestle.common.const import MODEL_TYPE_PROFILE
 from trestle.common.model_utils import ModelUtils
@@ -109,10 +109,35 @@ def load_controls_manager(cac_content_root: str, product: str) -> ControlsManage
     """
     product_yml_path = product_yaml_path(cac_content_root, product)
     product_yaml = load_product_yaml(product_yml_path)
+    product_yaml = product_yaml._data_as_dict
     controls_dir = os.path.join(cac_content_root, "controls")
     control_mgr = ControlsManager(controls_dir, product_yaml)
     control_mgr.load()
     return control_mgr
+
+
+def load_cac_policy(
+    policy_file_path: pathlib.Path, product: Optional[str] = None
+) -> Policy:
+    """
+    Load CaC content policy from YAML file.
+    """
+
+    if product is None:
+        # use a fake product_dir if we do not know the product. It's ok to do this when using
+        # ssg as a third-party library. Because in ssg, only use product_dir parent dir to find
+        # jinja macros directory
+        # https://github.com/ComplianceAsCode/content/blob/master/ssg/jinja.py#L101-L105
+        product_dir = policy_file_path
+    else:
+        product_dir = policy_file_path.parent.parent.parent.joinpath(
+            "products", product
+        )
+    # add product_dir to env_yaml to avoid get incorrect jinja macros directory
+    policy = Policy(policy_file_path, env_yaml={"product_dir": product_dir})
+    policy.load()
+
+    return policy
 
 
 def to_literal_scalar_string(s: str) -> LiteralScalarString:

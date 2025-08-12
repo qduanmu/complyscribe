@@ -2903,7 +2903,7 @@ files = [
 
 [[package]]
 name = "ssg"
-version = "0.1.78.dev574+946ce0e997"
+version = "0.1.78.dev885+417ba26658"
 description = "Library used while building and maintaining the ComplianceasCode/content project"
 optional = false
 python-versions = ">=3"
@@ -2919,8 +2919,8 @@ setuptools = "*"
 [package.source]
 type = "git"
 url = "https://github.com/ComplianceasCode/content"
-reference = "fcf8a7b21c47204f1212e4adb43f4301e27e36dc"
-resolved_reference = "fcf8a7b21c47204f1212e4adb43f4301e27e36dc"
+reference = "HEAD"
+resolved_reference = "417ba26658cf976e0c06a28a08907efbe9b8144d"
 
 [[package]]
 name = "toml"
@@ -3169,4 +3169,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.9.2"
-content-hash = "46345be10092aff62f5dde714ca77a1c06f1d6bc339f0315aa76d368b67bd78e"
+content-hash = "cd4ab0dc076ac932dbdfe78081b2e4bd1bb1a092d0dfcbb51ac1e60d842947ad"

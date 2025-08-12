@@ -24,6 +24,7 @@ from trestle.oscal.catalog import Catalog, Control, Group
 
 from complyscribe import const
 from complyscribe.tasks.base_task import TaskBase
+from complyscribe.utils import load_cac_policy
 
 
 logger = logging.getLogger(__name__)
@@ -158,15 +159,14 @@ class SyncCacCatalogTask(TaskBase):
 
     def _load_policy_controls(self) -> Policy:
         """Load a CaC policy."""
-        cac_controls_path = self.cac_content_root / "controls"
+        cac_controls_path = self.cac_content_root.joinpath("controls")
         for policy_yaml in itertools.chain(
             cac_controls_path.rglob("*.[Yy][Mm][Ll]"),
             cac_controls_path.rglob("*.[Yy][Aa][Mm][Ll]"),
         ):
             if policy_yaml.is_file():
                 try:
-                    policy = Policy(policy_yaml)
-                    policy.load()
+                    policy = load_cac_policy(policy_yaml)
                     if policy.id == self.policy_id:
                         return policy
                 except Exception as e:

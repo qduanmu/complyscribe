@@ -268,6 +268,7 @@ def setup_for_cac_content_dir(tmp_dir: str, cac_content_src_dir: pathlib.Path) -
             rules.append("file_groupownership_sshd_private_key")
             rules.append("var_sshd_set_keepalive=1")
             rules.append("var_system_crypto_policy=fips")
+            rules.append("var_password_pam_minlen=1")
         if control["id"] == "AC-2":
             control["notes"] = to_literal_scalar_string(
                 "Section a: AC-1(a) is an organizational control outside"

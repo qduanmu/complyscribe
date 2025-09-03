@@ -89,9 +89,10 @@ def main(product, content_root_dir):
         if len(policy_levels) > 0:
             for key, value in policy_levels.items():
                 # Update the relation_ship with the policy_id and levels
-                relationship["policy_id"] = key
-                relationship["levels"] = value
-                logging.info(relationship)
+                if key != "srg_gpos":
+                    relationship["policy_id"] = key
+                    relationship["levels"] = value
+                    logging.info(relationship)
 
 
 if __name__ == "__main__":

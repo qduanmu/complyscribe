@@ -60,7 +60,11 @@ def main(product, content_root_dir):
         policy_id = get_profile_controls(cac_profile)
         policy_ids.extend(policy_id)
     policy_ids = set(policy_ids)
-
+    # The srg_gpos can't work. It will impact the CI sync-cac-oscal.
+    # https://github.com/ComplianceAsCode/content/actions/runs/17401140387/job/49394339232
+    # Remove it from the controls to skip do the sync of srg_gpos
+    if product == "rhel10":
+        policy_ids.discard("srg_gpos")
     logging.info(" ".join(policy_ids))
 
 

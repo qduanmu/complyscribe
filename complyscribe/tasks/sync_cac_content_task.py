@@ -328,6 +328,7 @@ class SyncCacContentTask(TaskBase):
         params = []
         for rule in rules:
             params.extend(rule._parameters)
+        params.extend(rules[0]._parameters)
         param_selections = {param.id: param.selected_value for param in params}
 
         if param_selections:

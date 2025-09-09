@@ -90,12 +90,6 @@ def get_validation_component_mapping(props: Property) -> List[Dict[str, str]]:
             # Append the Check entry follow Rule_Description
             rule_check_mapping.append(check_id_entry)
             rule_check_mapping.append(check_description_entry)
-        # If this rule has paramters, append the Check entry follow paramters
-        if prop["name"] == "Parameter_Value_Alternatives":
-            rule_check_mapping.remove(check_id_entry)
-            rule_check_mapping.remove(check_description_entry)
-            rule_check_mapping.append(check_id_entry)
-            rule_check_mapping.append(check_description_entry)
     return rule_check_mapping
 
 
@@ -342,6 +336,8 @@ class RulesTransformer:
         rule_properties.append(
             add_prop(RULE_DESCRIPTION, rule_obj.description, ruleset)
         )
+        # Retain the parameters only for the first rule.
+        # More context is in issue CPLYTM-571 and CPLYTM-968
         if rule_index == 0:
             for index, param in enumerate(rule_obj._parameters):
                 suffix = "" if len(rule_obj._parameters) == 1 else f"_{index}"

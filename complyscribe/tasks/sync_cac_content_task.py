@@ -326,8 +326,9 @@ class SyncCacContentTask(TaskBase):
         """Add set parameters to a control implementation."""
         rules: List[RuleInfo] = list(self.rules_by_id.values())
         params = []
-        for rule in rules:
-            params.extend(rule._parameters)
+        # for rule in rules:
+        #     params.extend(rule._parameters)
+        params.extend(rules[0]._parameters)
         param_selections = {param.id: param.selected_value for param in params}
 
         if param_selections:

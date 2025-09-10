@@ -93,60 +93,6 @@
             "remarks": "rule_set_2"
           },
           {
-            "name": "Parameter_Id_0",
-            "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "var_password_pam_minlen",
-            "remarks": "rule_set_2"
-          },
-          {
-            "name": "Parameter_Description_0",
-            "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "Minimum number of characters in password",
-            "remarks": "rule_set_2"
-          },
-          {
-            "name": "Parameter_Value_Alternatives_0",
-            "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "{10: 10, 12: 12, 14: 14, 15: 15, 17: 17, 18: 18, 20: 20, 6: 6, 7: 7, 8: 8, 'default': 15}",
-            "remarks": "rule_set_2"
-          },
-          {
-            "name": "Parameter_Id_1",
-            "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "var_sshd_set_keepalive",
-            "remarks": "rule_set_2"
-          },
-          {
-            "name": "Parameter_Description_1",
-            "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "Specify the maximum number of idle message counts before session is terminated.",
-            "remarks": "rule_set_2"
-          },
-          {
-            "name": "Parameter_Value_Alternatives_1",
-            "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "{10: 10, 3: 3, 5: 5, 0: 0, 1: 1, 'default': 0}",
-            "remarks": "rule_set_2"
-          },
-          {
-            "name": "Parameter_Id_2",
-            "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "var_system_crypto_policy",
-            "remarks": "rule_set_2"
-          },
-          {
-            "name": "Parameter_Description_2",
-            "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "Specify the crypto policy for the system.",
-            "remarks": "rule_set_2"
-          },
-          {
-            "name": "Parameter_Value_Alternatives_2",
-            "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "{'default': 'DEFAULT', 'default_policy': 'DEFAULT', 'default_nosha1': 'DEFAULT:NO-SHA1', 'fips': 'FIPS', 'fips_ospp': 'FIPS:OSPP', 'legacy': 'LEGACY', 'future': 'FUTURE', 'next': 'NEXT'}",
-            "remarks": "rule_set_2"
-          },
-          {
             "name": "Rule_Id",
             "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
             "value": "not_exist_rule_id",

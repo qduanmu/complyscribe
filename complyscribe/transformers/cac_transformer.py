@@ -90,12 +90,6 @@ def get_validation_component_mapping(props: Property) -> List[Dict[str, str]]:
             # Append the Check entry follow Rule_Description
             rule_check_mapping.append(check_id_entry)
             rule_check_mapping.append(check_description_entry)
-        # If this rule has paramters, append the Check entry follow paramters
-        if prop["name"] == "Parameter_Value_Alternatives":
-            rule_check_mapping.remove(check_id_entry)
-            rule_check_mapping.remove(check_description_entry)
-            rule_check_mapping.append(check_id_entry)
-            rule_check_mapping.append(check_description_entry)
     return rule_check_mapping
 
 
@@ -332,7 +326,9 @@ class RulesTransformer:
         )
         return [id_prop, description_prop, alternative_prop]
 
-    def _get_rule_properties(self, ruleset: str, rule_obj: RuleInfo) -> List[Property]:
+    def _get_rule_properties(
+        self, ruleset: str, rule_obj: RuleInfo, rule_index: int
+    ) -> List[Property]:
         """Get a set of rule properties for a rule object."""
         rule_properties: List[Property] = []
         # Add rule properties for the ruleset
@@ -340,9 +336,14 @@ class RulesTransformer:
         rule_properties.append(
             add_prop(RULE_DESCRIPTION, rule_obj.description, ruleset)
         )
-        for index, param in enumerate(rule_obj._parameters):
-            suffix = "" if len(rule_obj._parameters) == 1 else f"_{index}"
-            rule_properties.extend(self._get_params_properties(ruleset, param, suffix))
+        # Retain the parameters only for the first rule.
+        # More context is in issue CPLYTM-571 and CPLYTM-968
+        if rule_index == 0:
+            for index, param in enumerate(rule_obj._parameters):
+                suffix = "" if len(rule_obj._parameters) == 1 else f"_{index}"
+                rule_properties.extend(
+                    self._get_params_properties(ruleset, param, suffix)
+                )
 
         return rule_properties
 
@@ -362,7 +363,7 @@ class RulesTransformer:
         for i, rule_obj in enumerate(rule_objs):
             rule_set_mgr = _RuleSetIdMgr(start_val + i, len(rule_objs))
             rule_set_props = self._get_rule_properties(
-                rule_set_mgr.get_next_rule_set_id(), rule_obj
+                rule_set_mgr.get_next_rule_set_id(), rule_obj, i
             )
             rule_properties.extend(rule_set_props)
         return rule_properties

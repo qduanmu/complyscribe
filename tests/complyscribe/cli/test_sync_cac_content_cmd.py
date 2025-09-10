@@ -290,7 +290,7 @@ def test_sync_product(tmp_repo: Tuple[str, Repo]) -> None:
     component = compdef.components[0]
     assert component.title == "rhel8"
     # Check rules component props are added
-    assert len(component.props) == 33
+    assert len(component.props) == 15
     rule_ids = [p.value for p in component.props if p.name == "Rule_Id"]
     assert sorted(rule_ids) == [
         "configure_crypto_policy",
@@ -398,7 +398,7 @@ def test_sync_product_create_validation_component(tmp_repo: Tuple[str, Repo]) ->
     assert component_definition.exists()
     compdef = ComponentDefinition.oscal_read(component_definition)
     component = compdef.components[0]
-    assert len(component.props) == 39
+    assert len(component.props) == 21
     assert component.title == "openscap"
     assert component.type == "validation"
 

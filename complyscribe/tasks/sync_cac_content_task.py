@@ -15,7 +15,6 @@ from ssg.profiles import _load_yaml_profile_file, get_profiles_from_products
 from trestle.common.common_types import TypeWithProps
 from trestle.common.const import (
     IMPLEMENTATION_STATUS,
-    REPLACE_ME,
     TRESTLE_GENERIC_NS,
     TRESTLE_HREF_HEADING,
 )
@@ -263,14 +262,13 @@ class SyncCacContentTask(TaskBase):
             implemented_req: The implemented requirement to add the response and statements to.
             control_response: The control response to add to the implemented requirement.
         """
-        # REPLACE_ME is used as a generic string if no control notes
-        control_response = control.notes or REPLACE_ME
+        # Replace the placeholder "REPLACE_ME" to meaningful string
+        control_response = control.notes or f"No notes for control-id {control.id}."
         pattern = re.compile(SECTION_PATTERN, re.IGNORECASE)
         sections_dict = self._build_sections_dict(control_response, pattern)
         oscal_status = OscalStatus.from_string(control.status)
-
         if sections_dict:
-            self._add_response_by_status(implemented_req, oscal_status, REPLACE_ME)
+            description = "See the implementation status for each statement."
             implemented_req.statements = list()
             for section_label, section_content in sections_dict.items():
                 # comment these lines due to https://issues.redhat.com/browse/CPLYTM-781
@@ -287,9 +285,8 @@ class SyncCacContentTask(TaskBase):
                 )
                 implemented_req.statements.append(statement)
         else:
-            self._add_response_by_status(
-                implemented_req, oscal_status, control_response.strip()
-            )
+            description = control_response.strip()
+        self._add_response_by_status(implemented_req, oscal_status, description)
 
     def _process_rule_ids(self, rule_ids: List[str]) -> List[str]:
         """
@@ -352,6 +349,9 @@ class SyncCacContentTask(TaskBase):
         if control_id:
             implemented_req = generate_sample_model(ImplementedRequirement)
             implemented_req.control_id = control_id
+            implemented_req.description = (
+                f"The description for control-id {control_id}."
+            )
             self._handle_response(implemented_req, control)
             # Rules and variables are collected from rules section in control files, but for
             # product agnostic control files some rules are unselected or variables are overridden
@@ -375,6 +375,7 @@ class SyncCacContentTask(TaskBase):
     def _create_control_implementation(self) -> ControlImplementation:
         """Create control implementation for a component."""
         ci = generate_sample_model(ControlImplementation)
+        ci.description = f"Control implementation for {self.cac_profile_id}"
         ci.source = self.profile_href
         all_implement_reqs = list()
         self._get_controls()

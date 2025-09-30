@@ -44,7 +44,7 @@ flake8-print = "^5.0.0"
 pre-commit = "^4.3.0"
 mkdocs-material = "^9.6.20"
 types-pyyaml = "^6.0.12.20250822"
-mkdocs-include-markdown-plugin = "^7.1.7"
+mkdocs-include-markdown-plugin = "^7.2.0"
 
 [tool.poetry.group.tests]
 optional = true

@@ -94,8 +94,9 @@ def control_cac_to_oscal(
     if cac_control.description:
         assignments = re.findall(r"\[Assignment: (.*?)]", cac_control.description) or []
         assignment_ids = []
-        for param_n, assignment in enumerate(assignments, 1):
+        for param_n, _assignment in enumerate(assignments, 1):
             assignment_ids.append(f"{cac_control_id}_prm_{param_n}")
+
         for assignment_id, assignment in zip(assignment_ids, assignments):
             oscal_control.params.append(
                 common.Parameter(id=assignment_id, label=assignment)

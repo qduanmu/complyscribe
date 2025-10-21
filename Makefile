@@ -1,6 +1,7 @@
 PYMODULE := complyscribe 
 E2E := e2e
 TESTS := tests
+OSV_INSTALL_URL := https://google.github.io/osv-scanner/installation/
 
 all: develop lint test
 .PHONY: all
@@ -52,6 +53,12 @@ test-code-cov:
 dep-cve-check:
 	@poetry export -f requirements.txt --without-hashes | poetry run safety check --continue-on-error --stdin
 .PHONY: dep-cve-check
+
+vuln_check:
+	@command -v osv-scanner > /dev/null || (echo "osv-scanner is not installed. Please install it first: $(OSV_INSTALL_URL)" && exit 1)
+	@echo "Running OSV-scanner on poetry.lock..."
+	@osv-scanner scan --lockfile poetry.lock || echo "OSV-scanner found vulnerabilities."
+.PHONY: vuln_check
 
 security-check:
 	@poetry run pre-commit run semgrep --all-files

@@ -141,6 +141,7 @@ We encourage the use of type hints in Python code to enhance readability, mainta
 
 - [SonarCloud](https://sonarcloud.io/dashboard?id=rh-psce_trestle-bot) - We use SonarCloud to analyze code quality, coverage, and security. To not break GitHub security model, this will not run on a forked repository.
 - [Semgrep](https://semgrep.dev/docs/extensions/overview/#pre-commit) - Identify issues in the local development environment before committing code. These checks are also run in CI.
+- [Osv-scanner](https://github.com/google/osv-scanner) - We use osv-scanner to find vulnerabilities in the project's dependencies, and these scans are also run in our CI pipeline.
 
 ### Running tests
 

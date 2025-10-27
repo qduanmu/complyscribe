@@ -618,21 +618,21 @@ markers = {main = "platform_system == \"Windows\"", plugins = "platform_system =
 
 [[package]]
 name = "compliance-trestle"
-version = "3.9.2"
+version = "3.9.3"
 description = "Tools to manage & autogenerate python objects representing the OSCAL layers/models"
 optional = false
 python-versions = ">=3.9"
 groups = ["main", "plugins"]
 files = [
-    {file = "compliance_trestle-3.9.2-py2.py3-none-any.whl", hash = "sha256:152828ba8b556a4a45c8399d6e6913b4e8b1c89415016feefe93a0304dc4f843"},
-    {file = "compliance_trestle-3.9.2.tar.gz", hash = "sha256:d56a57ef21b94b14b8768964ba423981fe13a336ced67485fed734b0519d187d"},
+    {file = "compliance_trestle-3.9.3-py2.py3-none-any.whl", hash = "sha256:a7e0b41f1c18cdf67d2f526f142768755b047dd7518ce6f04b68745e19e67c96"},
+    {file = "compliance_trestle-3.9.3.tar.gz", hash = "sha256:6d87a9c745fb0e745bf39d37fe93a6a4100fecf378f434350f54a56e63b3ca9d"},
 ]
 
 [package.dependencies]
 attrs = "*"
 cmarkgfm = ">=2024.1,<2024.12"
 cryptography = "45.0.7"
-datamodel-code-generator = {version = "0.33.0", extras = ["http"]}
+datamodel-code-generator = {version = "0.35.0", extras = ["http"]}
 defusedxml = "*"
 furl = "*"
 ilcli = "*"
@@ -649,7 +649,7 @@ requests = ">=2.32.2"
 "ruamel.yaml" = "*"
 
 [package.extras]
-dev = ["cairosvg", "gitpython", "livereload", "markdown-include", "mike", "mkdocs (>=1.6.0)", "mkdocs-awesome-pages-plugin", "mkdocs-git-revision-date-localized-plugin", "mkdocs-htmlproofer-plugin", "mkdocs-material", "mkdocs-minify-plugin", "mkdocstrings[python] (>=0.25.2)", "mypy", "pep8-naming", "pillow", "pre-commit (>=2.4.0)", "pylint", "pymdown-extensions", "pytest (>=5.4.3)", "pytest-cov (>=2.10.0)", "pytest-random-order", "pytest-xdist", "python-dateutil", "python-semantic-release (>=9.8.0)", "setuptools (>=61)", "types-PyYAML", "types-paramiko", "types-requests", "types-setuptools", "urllib3 (==2.5.0)", "wheel", "yapf"]
+dev = ["cairosvg", "gitpython", "livereload", "markdown-include", "mike", "mkdocs (>=1.6.0)", "mkdocs-awesome-pages-plugin", "mkdocs-git-revision-date-localized-plugin", "mkdocs-htmlproofer-plugin", "mkdocs-material", "mkdocs-minify-plugin", "mkdocstrings[python] (>=0.25.2)", "mypy", "pep8-naming", "pillow", "pre-commit (>=2.4.0)", "pylint", "pymdown-extensions", "pytest (>=5.4.3)", "pytest-cov (>=2.10.0)", "pytest-random-order", "pytest-xdist", "python-dateutil", "python-semantic-release (>=10.4.0)", "setuptools (>=61)", "types-PyYAML", "types-paramiko", "types-requests", "types-setuptools", "urllib3 (==2.5.0)", "wheel", "yapf"]
 
 [[package]]
 name = "compliance-trestle-fedramp"
@@ -816,14 +816,14 @@ test-randomorder = ["pytest-randomly"]
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.33.0"
+version = "0.35.0"
 description = "Datamodel Code Generator"
 optional = false
 python-versions = ">=3.9"
 groups = ["main", "plugins"]
 files = [
-    {file = "datamodel_code_generator-0.33.0-py3-none-any.whl", hash = "sha256:e229264aa612b2d5bb4901bcd6c520a799ae0d5c19262577a0f876eb48afaaa3"},
-    {file = "datamodel_code_generator-0.33.0.tar.gz", hash = "sha256:7635ef788201d69bd3e98ba88ce6afe479400dc2737fe9d5e21f87408f352c08"},
+    {file = "datamodel_code_generator-0.35.0-py3-none-any.whl", hash = "sha256:c356d1e4a555f86667a4262db03d4598a30caeda8f51786555fd269c8abb806b"},
+    {file = "datamodel_code_generator-0.35.0.tar.gz", hash = "sha256:46805fa2515d3871f6bfafce9aa63128e735a7a6a4cfcbf9c27b3794ee4ea846"},
 ]
 
 [package.dependencies]
@@ -3396,4 +3396,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.9.2"
-content-hash = "1a3d1c64720fd088bb8f092deb3e873482d6fef08a253190e7eded73df90ecb0"
+content-hash = "1c9e4e50a7e7991adc01e314136fdef6f45b858ce6834a7f29817727bbf2d5c4"

@@ -10,6 +10,7 @@ Before you start contributing, please take a moment to read through the guide be
   - [How To Contribute](#how-to-contribute)
   - [Opening a Pull Request](#opening-a-pull-request)
   - [Developer Guide](#developer-guide)
+    - [Style Guide](#style-guide)
     - [Prerequisites](#prerequisites)
     - [Development Environment](#development-environment)
     - [How It Works](#how-it-works)
@@ -49,6 +50,10 @@ When submitting a pull request, please follow these guidelines:
 3. Please keep the pull request focused on a single issue or feature, if possible.
 
 ## Developer Guide
+
+### Style Guide
+
+Refer to [Style Guide](https://github.com/complytime/community/blob/main/STYLE_GUIDE.md), this is the universal style guide all projects under ComplyTime Organization should be followed.
 
 ### Prerequisites
 

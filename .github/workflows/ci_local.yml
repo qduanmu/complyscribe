@@ -1,5 +1,5 @@
 ---
-name: CI
+name: Local CI
 
 on:
   push:
@@ -14,22 +14,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  megalinter:
-    name: Run linters
-    runs-on: ubuntu-latest
-    permissions:
-      issues: write
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - name: MegaLinter
-        id: ml
-        uses: oxsecurity/megalinter@55a59b24a441e0e1943080d4a512d827710d4a9d # v9.2.0
-        env:
-          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   project_checks:
     name: Run project checks
     runs-on: ubuntu-latest
